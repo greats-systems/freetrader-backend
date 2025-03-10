@@ -1,0 +1,7 @@
+.env
+
+dependencies:
+    -@supabase/supabase-js
+    -dotenv
+    -express
+    -nodemon

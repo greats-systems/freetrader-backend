@@ -2,7 +2,7 @@ const { createClient } = require("@supabase/supabase-js");
 const env = require("dotenv");
 const { response } = require("express");
 env.config();
-const supabase = createClient(process.env.URL, process.env.ANON_KEY);
+const supabase = createClient(process.env.URL, process.env.SERVICE_KEY);
 
 /*
  * This file implements the CRUD functions for each freetrader relation in Supabase
@@ -62,7 +62,7 @@ exports.getFarmers = async (_, response) => {
     .from("Farmer")
     .select()
     .then((data) => {
-      response.status(200).send(data);
+      response.status(200).send(data.data);
     })
     .catch((error) => {
       response.status(500).send(error);
@@ -73,10 +73,10 @@ exports.getFarmerByID = async (request, response) => {
   await supabase
     .from("Farmer")
     .select()
-    .eq("NationalID", request.body.nationalID)
+    .eq("FirstName", request.query.FirstName)
     .then((data) => {
       if (Object.keys(data.data).length > 0) {
-        response.status(200).send(data);
+        response.status(200).send(data.data);
       } else response.status(404).send("Not found")
     })
     .catch((error) => {
@@ -463,7 +463,7 @@ exports.getFacilityDetailsByID = async (request, response) => {
     await supabase
      .from("FarmerFacilityDetails")
      .select()
-     .eq("FarmID", request.body.accountNumber)
+     .eq("FarmID", request.query.FarmID)
      .then((data) => {
         if (Object.keys(data.data).length > 0){
             response.status(200).send(data)
