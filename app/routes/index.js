@@ -44,6 +44,9 @@ module.exports = (app) => {
     router.put('/facility-details/update', controller.updateFacilityDetails)
     router.delete('/facility-details/delete', controller.deleteFacilityDetails)
 
+    // Farmer dashboard
+    router.get('/farmer-dashboard', controller.populateFarmerDashboard)
+    
     // FarmerFacilityCooperative methods
     router.post('/facility-cooperative/create', controller.createFacilityCooperative)
     router.get('/facility-cooperatives', controller.getFacilityCooperatives)

@@ -25,37 +25,44 @@ exports.root = (_, response) => {
 
 /****************************************************************************************************Farmer********************************************************************************************/
 exports.createFarmer = async (request, response) => {
-  await supabase
-    .from("Farmer")
+   await supabase
+    .from('Farmer')
     .insert({
-      "NationalID": request.body.nationalID,
-      "Title": request.body.title,
-      "FirstName": request.body.firstName,
-      "Gender": request.body.gender,
-      "Surname": request.body.surname,
-      "DateOfBirth": request.body.dateOfBirth,
-      "MaidenSurname": request.body.madenSurname,
-      "CountryOfBirth": request.body.countryOfBirth,
-      "NumberOfDependants": request.body.numberOfDependants,
-      "MaritalStatus": request.body.maritalStatus,
-      "EmailAddress": request.body.emailAddress,
-      "MobileNumber": request.body.mobileNumber,
-      "HomeTelephoneNumber": request.body.homeTelephoneNumber,
-      "PhysicalAddress": request.body.physicalAddress,
-      "Province": request.body.province,
-      "Country": request.body.country,
-      "AccountNumber": request.body.accountNumber,
-      "SpouseNationalID": request.body.spouseNationalID,
-      "NextOfKinNationalID": request.body.nextOfKinNationalID,
-      "FarmID": request.body.farmID
+ 	'NationalID' : request.body.nationalid,
+ 	'Title' : request.body.title,
+ 	'FirstName' : request.body.firstname,
+ 	'Gender' : request.body.gender,
+ 	'Surname' : request.body.surname,
+ 	'DateOfBirth' : request.body.dateofbirth,
+ 	'MaidenSurname' : request.body.maidensurname,
+ 	'CountryOfBirth' : request.body.countryofbirth,
+ 	'NumberOfDependants' : request.body.numberofdependants,
+ 	'MaritalStatus' : request.body.maritalstatus,
+ 	'EmailAddress' : request.body.emailaddress,
+ 	'MobileNumber' : request.body.mobilenumber,
+ 	'HomeTelephoneNumber' : request.body.hometelephonenumber,
+ 	'PhysicalAddress' : request.body.physicaladdress,
+ 	'Province' : request.body.province,
+ 	'Country' : request.body.country,
+ 	'AccountNumber' : request.body.accountnumber,
+ 	'SpouseNationalID' : request.body.spousenationalid,
+ 	'NextOfKinID' : request.body.nextofkinnationalid,
+ 	'FarmID' : request.body.farmid,
+   'FarmerID' : request.body.farmerid,
+   'CommodityID': request.body.commodityid
     })
-    .then((_) => {
-      response.status(201).send("Farmer created successfully!");
+    .then((x) => {
+      if (x.status == 201){
+         response.status(201).send('Farmer created successfully!')
+      }
+      else {
+         response.status(500).send(x.error)
+      }
     })
     .catch((error) => {
-      response.status(500).send(error);
-    });
-};
+    	response.status(500).send(error)
+    })
+}
 
 exports.getFarmers = async (_, response) => {
   await supabase
@@ -83,39 +90,6 @@ exports.getFarmerByID = async (request, response) => {
       response.status(500).send(error);
     });
 };
-
-exports.createFarmer = async (request, response) => {
-   await supabase
-    .from('Farmer')
-    .insert({
- 	'NationalID' : request.body.nationalid,
- 	'Title' : request.body.title,
- 	'FirstName' : request.body.firstname,
- 	'Gender' : request.body.gender,
- 	'Surname' : request.body.surname,
- 	'DateOfBirth' : request.body.dateofbirth,
- 	'MaidenSurname' : request.body.maidensurname,
- 	'CountryOfBirth' : request.body.countryofbirth,
- 	'NumberOfDependants' : request.body.numberofdependants,
- 	'MaritalStatus' : request.body.maritalstatus,
- 	'EmailAddress' : request.body.emailaddress,
- 	'MobileNumber' : request.body.mobilenumber,
- 	'HomeTelephoneNumber' : request.body.hometelephonenumber,
- 	'PhysicalAddress' : request.body.physicaladdress,
- 	'Province' : request.body.province,
- 	'Country' : request.body.country,
- 	'AccountNumber' : request.body.accountnumber,
- 	'SpouseNationalID' : request.body.spousenationalid,
- 	'NextOfKinNationalID' : request.body.nextofkinnationalid,
- 	'FarmID' : request.body.farmid
-    })
-    .then((_) => {
-    	response.status(201).send('Farmer created successfully!')
-    })
-    .catch((error) => {
-    	response.status(500).send(error)
-    })
-}
 
 exports.updateFarmer = async (request, response) => {
     await supabase
@@ -609,6 +583,38 @@ exports.deleteFacilityCooperative = async (request, response) => {
       .catch((error) => {
         response.status(500).send(error);
       });
+}
+
+exports.populateFarmerDashboard = async (request, response) => {
+   await supabase
+      .from("Farmer")
+      .select(`
+         FirstName, 
+         Surname,
+         EmailAddress,
+         MobileNumber,
+         PhysicalAddress,
+         FarmID,
+         FarmerFacilityDetails!FarmerFacilityDetails_FarmID_fkey(FarmID, FarmName, PhysicalAddress, District, LandSize, ArableLandSize, LandType)
+        `)
+      .eq("FirstName", request.query.FirstName)
+      .then((data) => {
+         if(data.status == 200){
+            response.status(200).send(data.data)
+         }
+         else {
+            response.status(500).send(data.error)
+         }
+         /*
+         if (Object.keys(data.data).length > 0){
+             response.status(200).send(data.data)
+         }
+         else response.status(404).send("Not found")
+         */
+      })
+      .catch((error) => {
+         response.status(500).send(error);
+     });
 }
 
 /****************************************************************************************************Crop********************************************************************************************/
