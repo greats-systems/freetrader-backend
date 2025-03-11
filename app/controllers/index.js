@@ -595,7 +595,21 @@ exports.populateFarmerDashboard = async (request, response) => {
          MobileNumber,
          PhysicalAddress,
          FarmID,
-         FarmerFacilityDetails!FarmerFacilityDetails_FarmID_fkey(FarmID, FarmName, PhysicalAddress, District, LandSize, ArableLandSize, LandType)
+         FarmerFacilityDetails!FarmerFacilityDetails_FarmID_fkey
+         (             
+            FarmName, 
+            PhysicalAddress, 
+            District, 
+            LandSize, 
+            ArableLandSize, 
+            LandType,
+            Crop
+            (
+               CertificateID,
+               CropName,
+               Season
+            )            
+         )
         `)
       .eq("FirstName", request.query.FirstName)
       .then((data) => {
