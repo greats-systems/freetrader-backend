@@ -38,11 +38,11 @@ module.exports = (app) => {
     router.delete('/bank-details/delete', controller.deleteBankDetails)
 
     // FarmerFacilityDetails methods
-    router.post('/facility-details/create', controller.createFacilityDetails)
-    router.get('/facility-details', controller.getFacilityDetails)
-    router.get('/farmer-facility-details', controller.getFacilityDetailsByID)
-    router.put('/facility-details/update', controller.updateFacilityDetails)
-    router.delete('/facility-details/delete', controller.deleteFacilityDetails)
+    router.post('/farm/create', controller.createFacilityDetails)
+    router.get('/farms', controller.getFacilityDetails)
+    router.get('/farm', controller.getFacilityDetailsByID)
+    router.put('/farm/update', controller.updateFacilityDetails)
+    router.delete('/farm/delete', controller.deleteFacilityDetails)
 
     // Farmer dashboard
     router.get('/farmer-dashboard', controller.populateFarmerDashboard)

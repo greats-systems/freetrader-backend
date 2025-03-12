@@ -146,7 +146,8 @@ exports.createSpouse = async (request, response) => {
         "FirstName" : request.body.firstName,
         "Surname" : request.body.surname,
         "Address" : request.body.address,
-        "PhoneNumber" : request.body.phoneNumber    
+        "PhoneNumber" : request.body.phoneNumber,
+        "FarmerID": request.body.farmerID   
      })
      .then((_) => {
         response.status(201).send("Farmer spouse created successfully!")
@@ -225,7 +226,8 @@ exports.createNextOfKin = async (request, response) => {
         "FirstName" : request.body.firstName,
         "Surname" : request.body.surname,
         "Address" : request.body.address,
-        "PhoneNumber" : request.body.phoneNumber,        
+        "PhoneNumber" : request.body.phoneNumber,
+        "FarmerID": request.body.farmerID    
      })
      .then((_) => {
         response.status(201).send("Farmer next of kin created successfully!")
@@ -311,7 +313,8 @@ exports.createBankDetails = async (request, response) => {
         "AccountName" : request.body.accountName,
         "AccountType" : request.body.accountType,
         "WalletAddress" : request.body.walletAddress,
-        "WalletType" : request.body.walletType,        
+        "WalletType" : request.body.walletType,    
+        "FarmerID": request.body.farmerID    
      })
      .then((_) => {
         response.status(201).send("Farmer bank details created successfully!")
@@ -396,10 +399,11 @@ exports.createFacilityDetails = async (request, response) => {
         "FarmID": request.body.farmID,
         "FarmName" : request.body.farmName,
         "PhysicalAddress" : request.body.physicalAddress,
-        "Town/City" : request.body.townCity,
+        "TownCity" : request.body.townCity,
         "District" : request.body.district,
         "Province" : request.body.province,
-        "Coordinates" : request.body.coordinates,
+        "CoordinatesLat" : request.body.coordinatesLat,
+        "CoordinatesLong" : request.body.coordinatesLong,
         "LandOwnership" : request.body.landOwnership,     
         "LandSize" : request.body.landSize,
         "LandType" : request.body.landType,
@@ -409,6 +413,7 @@ exports.createFacilityDetails = async (request, response) => {
         "OfferLetter/PlotNumber" : request.body.offerLetterPlotNumber,
         "AgritexReference" : request.body.agritexReference,
         "CooperativeID" : request.body.cooperativeID,
+        "FarmerID": request.body.farmerID
      })
      .then((_) => {
         response.status(201).send("Farmer facility details created successfully!")
