@@ -96,6 +96,13 @@ module.exports = (app) => {
     router.put('/contract-bid/update', controller.updateContractBid)
     router.delete('/contract-bid/delete', controller.deleteContractBid)
 
+    // Ward methods
+    router.post('/ward/create', controller.createWard)
+    router.get('/wards', controller.getWards)
+    // router.get('/contract-bid', controller.getWardByID)
+    // router.put('/contract-bid/update', controller.updateWard)
+    // router.delete('/contract-bid/delete', controller.deleteWard)
+
     // Access the routes using 'http://localhost:PORT/api/<route-name>'
     app.use('/api', router)
 }

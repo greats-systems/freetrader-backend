@@ -1,5 +1,6 @@
 const { createClient } = require("@supabase/supabase-js");
 const env = require("dotenv");
+const _ = require('lodash')
 const { response } = require("express");
 env.config();
 const supabase = createClient(process.env.URL, process.env.SERVICE_KEY);
@@ -599,31 +600,24 @@ exports.populateFarmerDashboard = async (request, response) => {
          EmailAddress,
          MobileNumber,
          PhysicalAddress,
-         FarmID,
-         FarmerFacilityDetails!FarmerFacilityDetails_FarmID_fkey
-         (             
-            FarmName, 
-            PhysicalAddress, 
-            District, 
-            LandSize, 
-            ArableLandSize, 
-            LandType,
-            Crop
-            (
-               CertificateID,
-               CropName,
-               Season
-            )            
-         )
+         FarmerID,
+         FarmerNextOfKin
+         (
+            SpouseFirstName: FirstName,
+            SpouseSurname: Surname,
+            SpouseAddress: Address,
+            SpousePhoneNumber: PhoneNumber
+         )        
         `)
-      .eq("FirstName", request.query.FirstName)
+      // .eq("FirstName", request.query.FirstName)
       .then((data) => {
-         if(data.status == 200){
-            response.status(200).send(data.data)
-         }
-         else {
-            response.status(500).send(data.error)
-         }
+         response.send(data.data)
+         // if(data.status == 200){
+         //    response.status(200).send(data.data)
+         // }
+         // else {
+         //    response.status(500).send(data.error)
+         // }
          /*
          if (Object.keys(data.data).length > 0){
              response.status(200).send(data.data)
@@ -1133,3 +1127,95 @@ exports.deleteContractBid = async (request, response) => {
        response.status(500).send(error);
      });
 }
+
+/****************************************************************************************************Wards********************************************************************************************/
+exports.createWard = async (request, response) => {
+   await supabase
+    .from("Wards")
+    .insert({
+       "province": request.body.province,
+       "district": request.body.district,
+       "admin" : request.body.admin,
+       "councilor" : request.body.councilor,
+       "fao_handler" : request.body.faoHandler,
+       "popular_commodity" : request.body.popularCommodity,
+    })
+    .then((x) => {
+      response.send(x)
+      // if (x.status == 201){
+      //    response.status(201).send('Farmer created successfully!')
+      // }
+      // else {
+      //    response.status(500).send(x.error)
+      // }
+    })
+    .catch((error) => {
+       response.status(500).send(error);
+   });
+}
+
+exports.getWards = async (_, response) => {
+   await supabase
+    .from("Wards")
+    .select()
+    .then((data) => {
+       if (Object.keys(data.data).length > 0){
+           response.status(200).send(data.data)
+       }
+       else response.status(404).send("Not found")
+    })
+    .catch((error) => {
+       response.status(500).send(error);
+   });
+}
+
+/*
+exports.getWardByID = async (request, response) => {
+   await supabase
+    .from("Wards")
+    .select()
+    .eq("BidID", request.body.bidID)
+    .then((data) => {
+       if (Object.keys(data.data).length > 0){
+           response.status(200).send(data)
+       }
+       else response.status(404).send("Not found")
+    })
+    .catch((error) => {
+       response.status(500).send(error);
+   });
+}
+
+exports.updateWard = async (request, response) => {
+   await supabase
+    .from("Wards")
+    .update({      
+      "ContractID": request.body.contractID,
+      "CompanyID" : request.body.companyID,
+      "BidOpeningDate" : request.body.bidOpeningDate,
+      "BidStatus" : request.body.bidStatus,
+      "BidAmount" : request.body.bidAmount,
+      "BidClosingDate" : request.body.bidClosingDate,
+    })
+    .eq("BidID", request.body.bidID)
+    .then((_) => {
+       response.status(200).send("Wards updated successfully!")
+    })
+    .catch((error) => {
+       response.status(500).send(error);
+   });
+}
+
+exports.deleteWard = async (request, response) => {
+   await supabase
+    .from("CertificateIssuer")
+    .delete()
+    .eq("BidID", request.body.bidID)
+    .then((_) => {
+       response.status(200).send("Wards deleted successfully!");
+     })
+     .catch((error) => {
+       response.status(500).send(error);
+     });
+}
+     */
