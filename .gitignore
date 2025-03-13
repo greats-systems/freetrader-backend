@@ -5,3 +5,5 @@ dependencies:
     -dotenv
     -express
     -nodemon
+
+script.sh

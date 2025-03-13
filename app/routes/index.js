@@ -68,12 +68,33 @@ module.exports = (app) => {
     router.put('/crop-production/update', controller.updateCropProduction)
     router.delete('/crop-production/delete', controller.deleteCropProduction)
 
-    // GMBCertificate methods
-    router.post('/gmb-certificate/create', controller.createGMBCertificate)
-    router.get('/gmb-certificates', controller.getGMBCertificates)
-    router.get('/gmb-certificate', controller.getGMBCertificateByID)
-    router.put('/gmb-certificate/update', controller.updateGMBCertificate)
-    router.delete('/gmb-certificate/delete', controller.deleteGMBCertificate)
+    // Certificate methods
+    router.post('/certificate/create', controller.createCertificate)
+    router.get('/certificates', controller.getCropCertificates)
+    router.get('/certificate', controller.getCropCertificateByID)
+    router.put('/certificate/update', controller.updateCropCertificate)
+    router.delete('/certificate/delete', controller.deleteCropCertificate)
+
+    // CertificateIssuer methods
+    router.post('/certificate-issuer/create', controller.createCropCertificateIssuer)
+    router.get('/certificate-issuers', controller.getCropCertificateIssuers)
+    router.get('/certificate-issuer', controller.getCropCertificateIssuerByID)
+    router.put('/certificate-issuer/update', controller.updateCropCertificateIssuer)
+    router.delete('/certificate-issuer/delete', controller.deleteCropCertificateIssuer)
+
+    // Contract methods
+    router.post('/contract/create', controller.createContract)
+    router.get('/contracts', controller.getContracts)
+    router.get('/contract', controller.getContractByID)
+    router.put('/contract/update', controller.updateContract)
+    router.delete('/contract/delete', controller.deleteContract)
+
+    // Contract bid methods
+    router.post('/contract-bid/create', controller.createContractBid)
+    router.get('/contract-bids', controller.getContractBids)
+    router.get('/contract-bid', controller.getContractBidByID)
+    router.put('/contract-bid/update', controller.updateContractBid)
+    router.delete('/contract-bid/delete', controller.deleteContractBid)
 
     // Access the routes using 'http://localhost:PORT/api/<route-name>'
     app.use('/api', router)

@@ -14,7 +14,7 @@ const supabase = createClient(process.env.URL, process.env.SERVICE_KEY);
     5. FarmerBankDetails
     6. Crop
     7. FarmerFacilityCooperative
-    8. GMBCertificate
+    8. CropCertificate
     9. CropProduction
  * We will also include a root controller as an entry point 
 */
@@ -429,7 +429,7 @@ exports.getFacilityDetails = async (_, response) => {
      .select()
      .then((data) => {
         if (Object.keys(data.data).length > 0){
-            response.status(200).send(data)
+            response.status(200).send(data.data)
         }
         else response.status(404).send("Not found")
      })
@@ -523,7 +523,7 @@ exports.getFacilityCooperatives = async (_, response) => {
      .select()
      .then((data) => {
         if (Object.keys(data.data).length > 0){
-            response.status(200).send(data)
+            response.status(200).send(data.data)
         }
         else response.status(404).send("Not found")
      })
@@ -644,8 +644,7 @@ exports.createCrop = async (request, response) => {
         "CropID": request.body.cropID,
         "CropName" : request.body.cropName,
         "Season" : request.body.season,
-        "GMBCertificateID" : request.body.gmbCertificateID,
-        "ProductionReferenceID" : request.body.productionReferenceID,
+        "CertificateID" : request.body.certificateID,
      })
      .then((_) => {
         response.status(201).send("Crop created successfully!")
@@ -661,7 +660,7 @@ exports.getCrops = async (_, response) => {
      .select()
      .then((data) => {
         if (Object.keys(data.data).length > 0){
-            response.status(200).send(data)
+            response.status(200).send(data.data)
         }
         else response.status(404).send("Not found")
      })
@@ -692,8 +691,7 @@ exports.updateCrop = async (request, response) => {
      .update({
         "CropName" : request.body.cropName,
         "Season" : request.body.season,
-        "GMBCertificateID" : request.body.gmbCertificateID,
-        "ProductionReferenceID" : request.body.productionReferenceID,  
+        "CropCertificateID" : request.body.CropCertificateID,  
      })
      .eq("CropID", request.body.cropID)
      .then((_) => {
@@ -722,10 +720,10 @@ exports.createCropProduction = async (request, response) => {
     await supabase
      .from("Crop")
      .insert({
-        "ProductionReferenceID": request.body.productionReferenceID,
+        "CropID": request.body.cropID,
         "PlantingDate" : request.body.plantingDate,
         "HarvestDate" : request.body.harvestDate,
-        "CropYield" : request.body.cropYield,
+        "CropYield" : request.body.cropYield
      })
      .then((_) => {
         response.status(201).send("Crop created successfully!")
@@ -796,12 +794,13 @@ exports.deleteCropProduction = async (request, response) => {
       });
 }
 
-/****************************************************************************************************GMBCertificate********************************************************************************************/
-exports.createGMBCertificate = async (request, response) => {
+/****************************************************************************************************CropCertificate********************************************************************************************/
+exports.createCertificate = async (request, response) => {
     await supabase
-     .from("GMBCertificate")
+     .from("CropCertificate")
      .insert({
-        "GMBCertificateID": request.body.gmbCertificateID,
+        "CropID": request.body.cropID,
+        "CertificateID": request.body.certificateID,
         "CertificateName" : request.body.certificateName,
         "IssuedBy" : request.body.issuedBy,
         "DateOfIssue" : request.body.dateOfIssue,
@@ -811,17 +810,33 @@ exports.createGMBCertificate = async (request, response) => {
         "MarketValueOnDateOfExpiry" : request.body.marketValueOnDateOfExpiry,
      })
      .then((_) => {
-        response.status(201).send("GMB Certificate created successfully!")
+        response.status(201).send("Certificate created successfully!")
      })
      .catch((error) => {
         response.status(500).send(error);
     });
 }
 
-exports.getGMBCertificates = async (_, response) => {
+exports.getCropCertificates = async (_, response) => {
     await supabase
-     .from("GMBCertificate")
+     .from("CropCertificate")
      .select()
+     .then((data) => {
+        if (Object.keys(data.data).length > 0){
+            response.status(200).send(data.data)
+        }
+        else response.status(404).send("Not found")
+     })
+     .catch((error) => {
+        response.status(500).send(error);
+    });
+}
+
+exports.getCropCertificateByID = async (request, response) => {
+    await supabase
+     .from("CropCertificate")
+     .select()
+     .eq("CropCertificateID", request.body.cropCertificateID)
      .then((data) => {
         if (Object.keys(data.data).length > 0){
             response.status(200).send(data)
@@ -833,48 +848,288 @@ exports.getGMBCertificates = async (_, response) => {
     });
 }
 
-exports.getGMBCertificateByID = async (request, response) => {
+exports.updateCropCertificate = async (request, response) => {
     await supabase
-     .from("GMBCertificate")
-     .select()
-     .eq("GMBCertificateID", request.body.gmbCertificateID)
-     .then((data) => {
-        if (Object.keys(data.data).length > 0){
-            response.status(200).send(data)
-        }
-        else response.status(404).send("Not found")
-     })
-     .catch((error) => {
-        response.status(500).send(error);
-    });
-}
-
-exports.updateGMBCertificate = async (request, response) => {
-    await supabase
-     .from("GMBCertificate")
+     .from("CropCertificate")
      .update({
-        "PlantingDate" : request.body.plantingDate,
-        "HarvestDate" : request.body.harvestDate,
-        "CropYield" : request.body.cropYield, 
+      "CertificateID": request.body.certificateID,
+      "CertificateName" : request.body.certificateName,
+      "IssuedBy" : request.body.issuedBy,
+      "DateOfIssue" : request.body.dateOfIssue,
+      "MarketValueOnDateOfIssue" : request.body.marketValueOnDateOfIssue,
+      "CropGrade" : request.body.cropGrade,
+      "DateOfExpiry" : request.body.dateOfExpiry,
+      "MarketValueOnDateOfExpiry" : request.body.marketValueOnDateOfExpiry,
      })
-     .eq("ProductionReferenceID", request.body.productionReferenceID)
+     .eq("CropID", request.body.cropID,)
      .then((_) => {
-        response.status(200).send("GMB Certificate updated successfully!")
+        response.status(200).send("Certificate updated successfully!")
      })
      .catch((error) => {
         response.status(500).send(error);
     });
 }
 
-exports.deleteGMBCertificate = async (request, response) => {
+exports.deleteCropCertificate = async (request, response) => {
     await supabase
-     .from("GMBCertificate")
+     .from("CropCertificate")
      .delete()
-     .eq("ProductionReferenceID", request.body.productionReferenceID)
+     .eq("CropCertificateID", request.body.cropCertificateID)
      .then((_) => {
         response.status(200).send("GMB Certificate deleted successfully!");
       })
       .catch((error) => {
         response.status(500).send(error);
       });
+}
+
+/****************************************************************************************************CertificateIssuer********************************************************************************************/
+exports.createCropCertificateIssuer = async (request, response) => {
+   await supabase
+    .from("CertificateIssuer")
+    .insert({
+       "IssuerName": request.body.issuerName,
+       "IssuerID": request.body.issuerID,
+       "AllowedToExport" : request.body.allowedToExport,
+       "CertificateID" : request.body.certificateID
+    })
+    .then((_) => {
+       response.status(201).send("CertificateIssuer created successfully!")
+    })
+    .catch((error) => {
+       response.status(500).send(error);
+   });
+}
+
+exports.getCropCertificateIssuers = async (_, response) => {
+   await supabase
+    .from("CertificateIssuer")
+    .select()
+    .then((data) => {
+       if (Object.keys(data.data).length > 0){
+           response.status(200).send(data.data)
+       }
+       else response.status(404).send("Not found")
+    })
+    .catch((error) => {
+       response.status(500).send(error);
+   });
+}
+
+exports.getCropCertificateIssuerByID = async (request, response) => {
+   await supabase
+    .from("CertificateIssuer")
+    .select()
+    .eq("IssuerID", request.body.issuerID)
+    .then((data) => {
+       if (Object.keys(data.data).length > 0){
+           response.status(200).send(data)
+       }
+       else response.status(404).send("Not found")
+    })
+    .catch((error) => {
+       response.status(500).send(error);
+   });
+}
+
+exports.updateCropCertificateIssuer = async (request, response) => {
+   await supabase
+    .from("CertificateIssuer")
+    .update({
+      "IssuerName": request.body.issuerName,     
+      "AllowedToExport" : request.body.allowedToExport,
+      "CertificateID" : request.body.certificateID
+    })
+    .eq("IssuerID", request.body.issuerID)
+    .then((_) => {
+       response.status(200).send("GMB Certificate updated successfully!")
+    })
+    .catch((error) => {
+       response.status(500).send(error);
+   });
+}
+
+exports.deleteCropCertificateIssuer = async (request, response) => {
+   await supabase
+    .from("CertificateIssuer")
+    .delete()
+    .eq("IssuerID", request.body.issuerID,)
+    .then((_) => {
+       response.status(200).send("Certificate deleted successfully!");
+     })
+     .catch((error) => {
+       response.status(500).send(error);
+     });
+}
+
+/****************************************************************************************************Contract********************************************************************************************/
+exports.createContract = async (request, response) => {
+   await supabase
+    .from("Contract")
+    .insert({
+       "ContractID": request.body.contractID,
+       "ContractTitle": request.body.contractTitle,
+       "ContractDescription" : request.body.contractDescription,
+       "ContractValue" : request.body.contractValue,
+       "TenderDate" : request.body.tenderDate,
+       "ClosingDate" : request.body.closingDate,
+       "AwardDate" : request.body.awardDate,
+       "AwardedTo" : request.body.awardedTo
+    })
+    .then((_) => {
+       response.status(201).send("Contract created successfully!")
+    })
+    .catch((error) => {
+       response.status(500).send(error);
+   });
+}
+
+exports.getContracts = async (_, response) => {
+   await supabase
+    .from("Contract")
+    .select()
+    .then((data) => {
+       if (Object.keys(data.data).length > 0){
+           response.status(200).send(data.data)
+       }
+       else response.status(404).send("Not found")
+    })
+    .catch((error) => {
+       response.status(500).send(error);
+   });
+}
+
+exports.getContractByID = async (request, response) => {
+   await supabase
+    .from("Contract")
+    .select()
+    .eq("Contract", request.body.contractID)
+    .then((data) => {
+       if (Object.keys(data.data).length > 0){
+           response.status(200).send(data)
+       }
+       else response.status(404).send("Not found")
+    })
+    .catch((error) => {
+       response.status(500).send(error);
+   });
+}
+
+exports.updateContract = async (request, response) => {
+   await supabase
+    .from("Contract")
+    .update({
+      "ContractTitle": request.body.contractTitle,
+      "ContractDescription" : request.body.contractDescription,
+      "ContractValue" : request.body.contractValue,
+      "TenderDate" : request.body.tenderDate,
+      "ClosingDate" : request.body.closingDate,
+      "AwardDate" : request.body.awardDate,
+      "AwardedTo" : request.body.awardedTo
+    })
+    .eq("ContractID", request.body.contractID)
+    .then((_) => {
+       response.status(200).send("Contract updated successfully!")
+    })
+    .catch((error) => {
+       response.status(500).send(error);
+   });
+}
+
+exports.deleteContract = async (request, response) => {
+   await supabase
+    .from("CertificateIssuer")
+    .delete()
+    .eq("ContractID", request.body.contractID)
+    .then((_) => {
+       response.status(200).send("Contract deleted successfully!");
+     })
+     .catch((error) => {
+       response.status(500).send(error);
+     });
+}
+
+/****************************************************************************************************ContractBid********************************************************************************************/
+exports.createContractBid = async (request, response) => {
+   await supabase
+    .from("ContractBid")
+    .insert({
+       "BidID": request.body.bidID,
+       "ContractID": request.body.contractID,
+       "CompanyID" : request.body.companyID,
+       "BidOpeningDate" : request.body.bidOpeningDate,
+       "BidStatus" : request.body.bidStatus,
+       "BidAmount" : request.body.bidAmount,
+       "BidClosingDate" : request.body.bidClosingDate
+    })
+    .then((_) => {
+       response.status(201).send("ContractBid created successfully!")
+    })
+    .catch((error) => {
+       response.status(500).send(error);
+   });
+}
+
+exports.getContractBids = async (_, response) => {
+   await supabase
+    .from("ContractBid")
+    .select()
+    .then((data) => {
+       if (Object.keys(data.data).length > 0){
+           response.status(200).send(data.data)
+       }
+       else response.status(404).send("Not found")
+    })
+    .catch((error) => {
+       response.status(500).send(error);
+   });
+}
+
+exports.getContractBidByID = async (request, response) => {
+   await supabase
+    .from("ContractBid")
+    .select()
+    .eq("BidID", request.body.bidID)
+    .then((data) => {
+       if (Object.keys(data.data).length > 0){
+           response.status(200).send(data)
+       }
+       else response.status(404).send("Not found")
+    })
+    .catch((error) => {
+       response.status(500).send(error);
+   });
+}
+
+exports.updateContractBid = async (request, response) => {
+   await supabase
+    .from("ContractBid")
+    .update({      
+      "ContractID": request.body.contractID,
+      "CompanyID" : request.body.companyID,
+      "BidOpeningDate" : request.body.bidOpeningDate,
+      "BidStatus" : request.body.bidStatus,
+      "BidAmount" : request.body.bidAmount,
+      "BidClosingDate" : request.body.bidClosingDate,
+    })
+    .eq("BidID", request.body.bidID)
+    .then((_) => {
+       response.status(200).send("ContractBid updated successfully!")
+    })
+    .catch((error) => {
+       response.status(500).send(error);
+   });
+}
+
+exports.deleteContractBid = async (request, response) => {
+   await supabase
+    .from("CertificateIssuer")
+    .delete()
+    .eq("BidID", request.body.bidID)
+    .then((_) => {
+       response.status(200).send("ContractBid deleted successfully!");
+     })
+     .catch((error) => {
+       response.status(500).send(error);
+     });
 }
