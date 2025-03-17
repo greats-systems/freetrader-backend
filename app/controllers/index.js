@@ -81,11 +81,14 @@ exports.getFarmerByID = async (request, response) => {
   await supabase
     .from("Farmer")
     .select()
-    .eq("FirstName", request.query.FirstName)
+    .eq("NationalID", request.query.nationalid)
     .then((data) => {
-      if (Object.keys(data.data).length > 0) {
-        response.status(200).send(data.data);
-      } else response.status(404).send("Not found")
+      if(data.status==200){
+         response.status(200).send(data.data)
+      }
+      else{
+         response.status(500).send(data)
+      }
     })
     .catch((error) => {
       response.status(500).send(error);
@@ -143,16 +146,20 @@ exports.createSpouse = async (request, response) => {
     await supabase
      .from("FarmerSpouse")
      .insert({
-        "NationalID": request.body.nationalID,
-        "FirstName" : request.body.firstName,
+        "NationalID": request.body.nationalid,
+        "FirstName" : request.body.firstname,
         "Surname" : request.body.surname,
         "Address" : request.body.address,
-        "PhoneNumber" : request.body.phoneNumber,
-        "FarmerID": request.body.farmerID   
+        "PhoneNumber" : request.body.phonenumber,
+        "FarmerID": request.body.farmerid 
      })
-     .then((_) => {
-        response.status(201).send("Farmer spouse created successfully!")
-     })
+     .then((data) => {
+      if (data.status == 201) {
+          response.status(201).send(data)
+      } else {
+          response.status(500).send(data)
+      }
+   })
      .catch((error) => {
         response.status(500).send(error);
     });
@@ -163,7 +170,11 @@ exports.getSpouses = async (_, response) => {
      .from("FarmerSpouse")
      .select()
      .then((data) => {
-      response.status(200).send(data)
+         if (data.status == 201) {
+            response.status(201).send(data)
+         } else {
+            response.status(500).send(data)
+     }
      })
      .catch((error) => {
         response.status(500).send(error);
@@ -176,10 +187,11 @@ exports.getSpouseByID = async (request, response) => {
      .select()
      .eq("NationalID", request.body.nationalID)
      .then((data) => {
-        if (Object.keys(data.data).length > 0){
-            response.status(200).send(data)
-        }
-        else response.status(404).send("Not found")
+            if (data.status == 201) {
+               response.status(201).send(data)
+         } else {
+               response.status(500).send(data)
+         }
      })
      .catch((error) => {
         response.status(500).send(error);
@@ -223,15 +235,20 @@ exports.createNextOfKin = async (request, response) => {
     await supabase
      .from("FarmerNextOfKin")
      .insert({
-        "NationalID": request.body.nationalID,
-        "FirstName" : request.body.firstName,
+        "NationalID": request.body.nationalid,
+        "FirstName" : request.body.firstname,
         "Surname" : request.body.surname,
         "Address" : request.body.address,
-        "PhoneNumber" : request.body.phoneNumber,
-        "FarmerID": request.body.farmerID    
+        "PhoneNumber" : request.body.phonenumber,
+        "Relationship": request.body.relationship,
+        "FarmerID": request.body.farmerid    
      })
-     .then((_) => {
-        response.status(201).send("Farmer next of kin created successfully!")
+     .then((data) => {
+        if (data.status == 201){
+            response.status(201).send(data.data)
+        } else {
+            response.status(500).send(data)
+        }
      })
      .catch((error) => {
         response.status(500).send(error);
@@ -243,10 +260,12 @@ exports.getNextOfKins = async (_, response) => {
      .from("FarmerNextOfKin")
      .select()
      .then((data) => {
-        if (Object.keys(data.data).length > 0){
-            response.status(200).send(data)
+        if (data.status == 200) {
+         response.status(200).send(data.data)
         }
-        else response.status(404).send("Not found")
+        else {
+         response.status(500).send(data)
+        }
      })
      .catch((error) => {
         response.status(500).send(error);
@@ -307,15 +326,15 @@ exports.createBankDetails = async (request, response) => {
     await supabase
      .from("FarmerBankDetails")
      .insert({
-        "AccountNumber": request.body.accountNumber,
-        "BankName" : request.body.bankName,
-        "BranchName" : request.body.branchName,
-        "BranchCode" : request.body.branchCode,
-        "AccountName" : request.body.accountName,
-        "AccountType" : request.body.accountType,
-        "WalletAddress" : request.body.walletAddress,
-        "WalletType" : request.body.walletType,    
-        "FarmerID": request.body.farmerID    
+        "AccountNumber": request.body.accountnumber,
+        "BankName" : request.body.bankname,
+        "BranchName" : request.body.branchname,
+        "BranchCode" : request.body.branchcode,
+        "AccountName" : request.body.accountname,
+        "AccountType" : request.body.accounttype,
+        "WalletAddress" : request.body.walletaddress,
+        "WalletType" : request.body.wallettype,    
+        "FarmerID": request.body.farmerid    
      })
      .then((_) => {
         response.status(201).send("Farmer bank details created successfully!")
@@ -344,7 +363,7 @@ exports.getBankDetailsByID = async (request, response) => {
     await supabase
      .from("FarmerBankDetails")
      .select()
-     .eq("AccountNumber", request.body.accountNumber)
+     .eq("FarmerID", request.body.farmerid)
      .then((data) => {
         if (Object.keys(data.data).length > 0){
             response.status(200).send(data)
@@ -397,24 +416,24 @@ exports.createFacilityDetails = async (request, response) => {
     await supabase
      .from("FarmerFacilityDetails")
      .insert({
-        "FarmID": request.body.farmID,
-        "FarmName" : request.body.farmName,
-        "PhysicalAddress" : request.body.physicalAddress,
-        "TownCity" : request.body.townCity,
+        "FarmID": request.body.farmid,
+        "FarmName" : request.body.farmname,
+        "PhysicalAddress" : request.body.physicaladdress,
+        "TownCity" : request.body.towncity,
         "District" : request.body.district,
         "Province" : request.body.province,
-        "CoordinatesLat" : request.body.coordinatesLat,
-        "CoordinatesLong" : request.body.coordinatesLong,
-        "LandOwnership" : request.body.landOwnership,     
-        "LandSize" : request.body.landSize,
-        "LandType" : request.body.landType,
-        "ArableLandSize" : request.body.arableLandSize,
-        "NearestGMBDepot" : request.body.nearestGMBDepot,
-        "CropID" : request.body.cropID,
-        "OfferLetter/PlotNumber" : request.body.offerLetterPlotNumber,
-        "AgritexReference" : request.body.agritexReference,
-        "CooperativeID" : request.body.cooperativeID,
-        "FarmerID": request.body.farmerID
+        "CoordinatesLat" : request.body.coordinateslat,
+        "CoordinatesLong" : request.body.coordinateslong,
+        "LandOwnership" : request.body.landownership,     
+        "LandSize" : request.body.landsize,
+        "LandType" : request.body.landtype,
+        "ArableLandSize" : request.body.arablelandsize,
+        "NearestGMBDepot" : request.body.nearestgmbdepot,
+        "CropID" : request.body.cropid,
+        "OfferLetter/PlotNumber" : request.body.offerletterplotnumber,
+        "AgritexReference" : request.body.agritexreference,
+        "CooperativeID" : request.body.cooperativeid,
+        "FarmerID": request.body.farmerid
      })
      .then((_) => {
         response.status(201).send("Farmer facility details created successfully!")
@@ -443,7 +462,7 @@ exports.getFacilityDetailsByID = async (request, response) => {
     await supabase
      .from("FarmerFacilityDetails")
      .select()
-     .eq("FarmID", request.query.FarmID)
+     .eq("FarmerID", request.query.farmerid)
      .then((data) => {
         if (Object.keys(data.data).length > 0){
             response.status(200).send(data)
@@ -638,10 +657,11 @@ exports.createCrop = async (request, response) => {
         "CropID": request.body.cropID,
         "CropName" : request.body.cropName,
         "Season" : request.body.season,
-        "CertificateID" : request.body.certificateID,
+        "FarmID": request.body.farmID
+      //   "CertificateID" : request.body.certificateID,
      })
-     .then((_) => {
-        response.status(201).send("Crop created successfully!")
+     .then((data) => {
+        response.send(data)
      })
      .catch((error) => {
         response.status(500).send(error);

@@ -8,3 +8,4 @@ dependencies:
 
 script.sh
 test*.js
+node_modules/
