@@ -103,6 +103,14 @@ module.exports = (app) => {
     // router.put('/contract-bid/update', controller.updateWard)
     // router.delete('/contract-bid/delete', controller.deleteWard)
 
+    // Commodity methods
+    router.post('/commodity/create', controller.createCommodity)
+    router.get('/commodities', controller.getCommodities)
+
+    // Livestock methods
+    router.post('/livestock/create', controller.createLivestock)
+    router.get('/livestock', controller.getLivestock)
+
     // Access the routes using 'http://localhost:PORT/api/<route-name>'
     app.use('/api', router)
 }

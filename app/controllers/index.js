@@ -1238,4 +1238,76 @@ exports.deleteWard = async (request, response) => {
        response.status(500).send(error);
      });
 }
-     */
+*/
+
+/****************************************************************************************************Commodities********************************************************************************************/
+exports.createCommodity = async (request, response) => {
+   await supabase
+    .from('Commodity')
+    .insert({
+ 	'CommodityID' : request.body.commodityid,
+ 	'CommodityName' : request.body.commodityname,
+ 	'CommodityProducrPrice' : request.body.commodityproducerprice
+    })
+    .then((x) => {
+      if (x.status == 201){
+         response.status(201).send('Commodity created successfully!')
+      }
+      else {
+         response.status(500).send(x.error)
+      }
+    })
+    .catch((error) => {
+    	response.status(500).send(error)
+    })
+}
+
+exports.getCommodities = async (_, response) => {
+   await supabase
+     .from("Commodity")
+     .select()
+     .then((data) => {
+       response.status(200).send(data.data);
+     })
+     .catch((error) => {
+       response.status(500).send(error);
+     });
+ };
+
+ /****************************************************************************************************Livestock********************************************************************************************/
+ exports.createLivestock = async (request, response) => {
+   await supabase
+    .from('Livestock')
+    .insert({
+      'FarmerID' : request.body.farmerid,
+      'LivestockType' : request.body.livestocktype,
+      'Breed' : request.body.breed,
+      'Sex' : request.body.sex,
+      'DateOfBirth' : request.body.dateofbirth,
+      'DateAcquired' : request.body.dateacquired,
+      'HealthStatus' : request.body.healthstatus,
+    })
+    .then((x) => {
+      if (x.status == 201){
+         response.status(201).send('Livestock created successfully!')
+      }
+      else {
+         response.status(500).send(x.error)
+      }
+    })
+    .catch((error) => {
+    	response.status(500).send(error)
+    })
+}
+
+exports.getLivestock = async (_, response) => {
+   await supabase
+     .from("Livestock")
+     .select()
+     .then((data) => {
+       response.status(200).send(data.data);
+     })
+     .catch((error) => {
+       response.status(500).send(error);
+     });
+ };
