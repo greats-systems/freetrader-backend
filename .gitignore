@@ -1,4 +1,5 @@
 .env
 script.sh
+index.js
 test*.js
 node_modules/

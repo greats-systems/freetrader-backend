@@ -6,7 +6,12 @@ const swaggerDefinition = {
         title: 'Freetrader API',
         version: '1.0.0',
         description: 'This is a Swagger definition of the Freetrader API',
-    }
+    },
+    servers: [
+        {
+            url: 'http://localhost:5000',
+        }
+]
 }
 
 const options = {
