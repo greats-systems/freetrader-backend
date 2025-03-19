@@ -1,11 +1,4 @@
 .env
-
-dependencies:
-    -@supabase/supabase-js
-    -dotenv
-    -express
-    -nodemon
-
 script.sh
 test*.js
 node_modules/

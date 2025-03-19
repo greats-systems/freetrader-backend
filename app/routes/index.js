@@ -7,6 +7,11 @@ module.exports = (app) => {
     var router = require('express').Router()
 
     // Root
+    /**
+     * @swagger
+     * snkjvsdvwvbwlnwjn
+     * 
+    */
     router.get('/', controller.root)
 
     // Farmer methods
