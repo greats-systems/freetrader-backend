@@ -64,7 +64,7 @@ exports.updateCropCertificate = async (request, response) => {
     await supabase
      .from("CropCertificate")
      .update({
-      "CertificateID": request.body.certificateID,
+    //   "CropID": request.body.certificateID,
       "CertificateName" : request.body.certificateName,
       "IssuedBy" : request.body.issuedBy,
       "DateOfIssue" : request.body.dateOfIssue,
@@ -73,7 +73,7 @@ exports.updateCropCertificate = async (request, response) => {
       "DateOfExpiry" : request.body.dateOfExpiry,
       "MarketValueOnDateOfExpiry" : request.body.marketValueOnDateOfExpiry,
      })
-     .eq("CropID", request.body.cropID,)
+     .eq("CertificateID", request.body.certificateID,)
      .then((_) => {
         response.status(200).send("Certificate updated successfully!")
      })

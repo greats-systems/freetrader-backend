@@ -5,7 +5,7 @@ module.exports = (app) => {
     router.post('/crop/create', controller.createCrop)
     router.get('/crops', controller.getCrops)
     router.get('/crop', controller.getCropByID)
-    router.put('/crop/update', controller.updateCrop)
+    router.patch('/crop/update', controller.updateCrop)
     router.delete('/crop/delete', controller.deleteCrop)
 
     app.use('/api', router)

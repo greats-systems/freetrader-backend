@@ -1,13 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser')
+const yaml = require('js-yaml')
+const fs = require('fs')
 const swaggerUI = require('swagger-ui-express')
-const swaggerSpec = require('./swagger.js')
+
+const swaggerDoc = yaml.load(fs.readFileSync('swagger.yaml', 'utf8'))
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec))
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc))
 
 const PORT = process.env.PORT || 5000;
 

@@ -5,7 +5,7 @@ module.exports = (app) => {
     router.post('/farm/create', controller.createFacilityDetails)
     router.get('/farms', controller.getFacilityDetails)
     router.get('/farm', controller.getFacilityDetailsByID)
-    router.put('/farm/update', controller.updateFacilityDetails)
+    router.patch('/farm/update', controller.updateFacilityDetails)
     router.delete('/farm/delete', controller.deleteFacilityDetails)
 
     app.use('/api', router)

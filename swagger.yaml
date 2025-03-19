@@ -1,0 +1,481 @@
+swagger: "2.0"
+info:
+  title: Freetrader API
+  description: API for Freetrader's distribution system
+  version: 1.0.0
+
+host: localhost:5000
+basePath: /api
+
+schemes:
+  - http
+
+consumes:
+  - application/json
+
+paths:
+  # Root
+  /:
+    get:
+      summary: Entry point
+      description: This is the entry point of the API
+      responses:
+        200:
+          description: Success!
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+
+  # Certificate
+  /certificate/create:
+    post:
+      summary: Create certificate
+      description: This is the endpoint that creates a new certificate
+      parameters:
+        - in: body
+          name: certificate
+          description: Certificate details
+          schema:
+            $ref: '#/definitions/Certificate'
+        
+      responses:
+        201:
+          description: Certificate created successfully!
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /certificates:
+    get:
+      summary: Fetch certificates
+      description: This is the endpoint that fetches all certificates
+      responses:
+        200:
+          description: Certificates returned successfully!
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Certificate'
+        404:
+          description: No certificates found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /certificate:
+    get:
+      summary: Fetch certificate
+      description: This is the endpoint that fetches one certificate by ID
+      parameters:
+        - in: body
+          name: certificateID
+          description: Certificate ID
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Certificate returned successfully!
+          schema:
+            $ref: '#/definitions/Certificate'              
+        404:
+          description: No certificate found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Certificate'
+
+  /certificate/update:
+    patch:
+      summary: Update certificate
+      description: This endpoint updates a certificate for a given certificate ID
+      parameters:
+        - in: body
+          name: ID
+          description:  certificate ID
+          required: true
+          type: integer
+        - in: body
+          name: certificate
+          description: Certificate details
+          schema:
+            type: object
+            properties:
+              CertificateName:
+                type: string
+              IssuedBy:
+                type: string
+              DateOfIssue:
+                type: string
+                format: date
+              MarketValueOnDateOfIssue:
+                type: number
+                format: float
+              CropGrade:
+                type: string
+              DateOfExpiry:
+                type: string
+                format: date
+              MarketValueOnDateOfExpiry:
+                type: number
+                format: float
+      responses:
+        200:
+          description: Certificate updated successfully!
+          schema:
+            $ref: '#/definitions/Certificate'              
+        404:
+          description: No certificate found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Certificate'
+
+  /certificate/delete:
+    delete:
+      summary: Delete a certificate
+      description: Delete a certificate based on a certificate ID
+      parameters:
+        - in: body
+          name: id
+          description: Certificate ID
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Certificate deleted successfully!
+        404:
+          description: Certificate not found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+
+  # Certificate issuer
+  /certificate-issuer/create:
+    post:
+      summary: Create certificate issuer
+      description: This is the endpoint that creates a new certificate issuer
+      parameters:
+        - in: body
+          name: certificateIssuer
+          description: Certificate issuer details
+          schema:
+            $ref: '#/definitions/CertificateIssuer'
+        
+      responses:
+        201:
+          description: Certificate issuer created successfully!
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /certificate-issuers:
+    get:
+      summary: Fetch certificate issuers
+      description: This is the endpoint that fetches all certificate isuers
+      responses:
+        200:
+          description: Certificate issuers returned successfully!
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CertificateIssuer'
+        404:
+          description: No certificate issuers found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /certificate-issuer:
+    get:
+      summary: Fetch certificate issuer
+      description: This is the endpoint that fetches one certificate issuer by ID
+      responses:
+        200:
+          description: Certificate issuer returned successfully!
+          schema:
+            $ref: '#/definitions/Certificate'              
+        404:
+          description: No certificate issuer found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /certificate-issuer/update:
+    patch:
+      summary: Update certificate issuer
+      description: This endpoint updates a certificate issuer for a given certificate ID
+      parameters:
+        - in: body
+          name: issuerID
+          description:  certificate ID
+          required: true
+          type: integer
+        - in: body
+          name: certificate
+          description: Certificate details
+          schema:
+            type: object
+            properties:
+              CertificateName:
+                type: string
+              IssuedBy:
+                type: string
+              DateOfIssue:
+                type: string
+                format: date
+              MarketValueOnDateOfIssue:
+                type: number
+                format: float
+              CropGrade:
+                type: string
+              DateOfExpiry:
+                type: string
+                format: date
+              MarketValueOnDateOfExpiry:
+                type: number
+                format: float
+      responses:
+        200:
+          description: Certificate updated successfully!
+          schema:
+            $ref: '#/definitions/Certificate'              
+        404:
+          description: No certificate found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Certificate'
+
+  /certificate-issuer/delete:
+    delete:
+      summary: Delete a certificate
+      description: Delete a certificate based on a certificate ID
+      parameters:
+        - in: body
+          name: issuerD
+          description: Issuer ID
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Certificate issuer deleted successfully!
+        404:
+          description: Certificate issuer not found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+
+  # Commodity
+  /commodity/create:
+    post:
+      summary: Create commodity
+      description: This is the endpoint that creates a new commodity
+      parameters:
+        - in: body
+          name: commodity
+          description: commodity details
+          schema:
+            $ref: '#/definitions/Commodity'
+        
+      responses:
+        201:
+          description: commodity created successfully!
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /commodities:
+    get:
+      summary: Fetch commodities
+      description: This is the endpoint that fetches all commodities
+      responses:
+        200:
+          description: commodities returned successfully!
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Commodity'
+        404:
+          description: No commodities found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /commodity:
+    get:
+      summary: Fetch commodity
+      description: This is the endpoint that fetches one commodity by ID
+      parameters:
+        - in: body
+        - name: commodityID
+        - description: Commodity ID
+        - required: true
+        - type: integer
+      responses:
+        200:
+          description: commodity returned successfully!
+          schema:
+            $ref: '#/definitions/Certificate'              
+        404:
+          description: No commodity found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /commodity/update:
+    patch:
+      summary: Update commodity
+      description: This endpoint updates a commodity for a given certificate ID
+      parameters:
+        - in: body
+          name: issuerID
+          description:  certificate ID
+          required: true
+          type: integer
+        - in: body
+          name: certificate
+          description: Certificate details
+          schema:
+            type: object
+            properties:
+              CertificateName:
+                type: string
+              IssuedBy:
+                type: string
+              DateOfIssue:
+                type: string
+                format: date
+              MarketValueOnDateOfIssue:
+                type: number
+                format: float
+              CropGrade:
+                type: string
+              DateOfExpiry:
+                type: string
+                format: date
+              MarketValueOnDateOfExpiry:
+                type: number
+                format: float
+      responses:
+        200:
+          description: Certificate updated successfully!
+          schema:
+            $ref: '#/definitions/Certificate'              
+        404:
+          description: No certificate found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/Certificate'
+
+  /commodity/delete:
+    delete:
+      summary: Delete a certificate
+      description: Delete a certificate based on a certificate ID
+      parameters:
+        - in: body
+          name: issuerD
+          description: Issuer ID
+          required: true
+          type: integer
+      responses:
+        200:
+          description: commodity deleted successfully!
+        404:
+          description: commodity not found
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+
+definitions:
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+
+  Certificate:
+    type: object
+    properties:
+      CropID:
+        type: integer
+      CertificateID:
+        type: integer
+      CertificateName:
+        type: string
+      IssuedBy:
+        type: string
+      DateOfIssue:
+        type: string
+        format: date
+      MarketValueOnDateOfIssue:
+        type: number
+        format: float
+      CropGrade:
+        type: string
+      DateOfExpiry:
+        type: string
+        format: date
+      MarketValueOnDateOfExpiry:
+        type: number
+        format: float
+
+  CertificateIssuer:
+    type: object
+    properties:
+      IssuerID:
+        type: integer
+      IssuerName:
+        type: string
+      AllowedToExport:
+        type: boolean
+      CertificateID:
+        type: string
+
+  Commodity:
+    type: object
+    properties:
+      CommodityID:
+        type: integer
+      CommodityName:
+        type: string
+      CommodityProducrPrice:
+        type: string

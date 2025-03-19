@@ -5,7 +5,7 @@ module.exports = (app) => {
     router.post('/contract/create', controller.createContract)
     router.get('/contracts', controller.getContracts)
     router.get('/contract', controller.getContractByID)
-    router.put('/contract/update', controller.updateContract)
+    router.patch('/contract/update', controller.updateContract)
     router.delete('/contract/delete', controller.deleteContract)
 
     app.use('/api', router)

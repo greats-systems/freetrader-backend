@@ -5,7 +5,7 @@ module.exports = (app) => {
     router.post('/facility-cooperative/create', controller.createFacilityCooperative)
     router.get('/facility-cooperatives', controller.getFacilityCooperatives)
     router.get('/facility-cooperative', controller.getFacilityCooperativeByID)
-    router.put('/facility-cooperative/update', controller.updateFacilityCooperative)
+    router.patch('/facility-cooperative/update', controller.updateFacilityCooperative)
     router.delete('/facility-cooperative/delete', controller.deleteFacilityCooperative)
 
     app.use('/api', router)
