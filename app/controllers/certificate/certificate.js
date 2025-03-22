@@ -33,7 +33,12 @@ exports.getCropCertificates = async (_, response) => {
      .select()
      .then((data) => {
         if (data.status == 200) {
-            response.status(200).send(data.data)
+            if (data.data.length > 0) {
+                response.status(200).send(data.data)
+              }
+              else {
+                response.status(404).send('No data')
+              }
         }
         else {
             response.status(500).send(data)
@@ -50,8 +55,13 @@ exports.getCropCertificateByID = async (request, response) => {
      .select()
      .eq("CropCertificateID", request.body.cropCertificateID)
      .then((data) => {
-        if (Object.keys(data.data).length > 0){
-            response.status(200).send(data)
+        if (data.status == 200){
+            if (data.data.length > 0) {
+                response.status(200).send(data.data)
+              }
+              else {
+                response.status(404).send('No data')
+              }
         }
         else response.status(404).send("Not found")
      })

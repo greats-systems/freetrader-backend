@@ -13,8 +13,8 @@ exports.createLivestock = async (request, response) => {
        'HealthStatus' : request.body.healthstatus,
      })
      .then((data) => {
-      if(data.status == 200){
-          response.status(200).send(data.data)
+      if(data.status == 201){
+          response.status(201).send('Livestock created successfully!')
       }
       else {
           response.status(500).send(data)
@@ -30,9 +30,23 @@ exports.createLivestock = async (request, response) => {
       .from("Livestock")
       .select()
       .then((data) => {
-        response.status(200).send(data.data);
+        if(data.status == 200){
+          if (Object.keys(data.data).length > 0) {
+            response.status(200).send(data.data);
+          } else {
+            response.status(404).send("No data");
+          }
+        }
       })
       .catch((error) => {
         response.status(500).send(error);
       });
   };
+
+exports.getLivestockByID = async (request, response) => {
+  throw new Error('Not implemented')
+}
+
+exports.updateLivestock = async (request, response) => {
+  throw new Error('Not implemented')
+}

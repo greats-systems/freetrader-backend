@@ -14,7 +14,7 @@ exports.createFacilityCooperative = async (request, response) => {
      })
      .then((data) => {
         if (data.status == 201) {
-            response.status(201).send(data)
+            response.status(201).send('Cooperative created successfully!')
         } else {
             response.status(500).send(data)
         }
@@ -29,10 +29,12 @@ exports.getFacilityCooperatives = async (_, response) => {
      .from("FarmerFacilityCooperative")
      .select()
      .then((data) => {
-        if (Object.keys(data.data).length > 0){
+        if (Object.keys(data.data).length > 0) {
             response.status(200).send(data.data)
-        }
-        else response.status(404).send("Not found")
+          }
+          else{
+            response.status(404).send('No data')
+          }
      })
      .catch((error) => {
         response.status(500).send(error);
@@ -45,12 +47,12 @@ exports.getFacilityCooperativeByID = async (request, response) => {
      .select()
      .eq("FarmID", request.body.accountNumber)
      .then((data) => {
-        if(data.status == 200){
+        if (Object.keys(data.data).length > 0) {
             response.status(200).send(data.data)
-        }
-        else {
-            response.status(500).send(data)
-        }
+          }
+          else{
+            response.status(404).send('No data')
+          }
      })
      .catch((error) => {
         response.status(500).send(error);

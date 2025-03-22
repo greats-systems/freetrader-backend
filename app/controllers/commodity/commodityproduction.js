@@ -1,17 +1,17 @@
 const supabase = require('../../db/supabase.js')
 
-exports.createCommodity = async (request, response) => {
+exports.createCommodityProduction = async (request, response) => {
     await supabase
-     .from('Commodity')
+     .from('CommodityProduction')
      .insert({
-      'FarmID': request.body.farmid,
       'CommodityID' : request.body.commodityid,
-      'CommodityName' : request.body.commodityname,
-      'CommodityProducrPrice' : request.body.commodityproducerprice
+      'PlantingDate' : request.body.commodityname,
+      'HarvestDate': request.body.season,
+      'Yield' : request.body.yield
      })
      .then((data) => {
        if (data.status == 201){
-          response.status(201).send('Commodity created successfully!')
+          response.status(201).send('Commodity Production created successfully!')
        }
        else {
           response.status(500).send(data.error)
@@ -22,9 +22,9 @@ exports.createCommodity = async (request, response) => {
      })
  }
  
- exports.getCommodities = async (_, response) => {
+ exports.getCommodityProductions = async (_, response) => {
     await supabase
-      .from("Commodity")
+      .from("CommodityProduction")
       .select()
       .then((data) => {
         if(data.status == 200){

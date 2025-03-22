@@ -21,17 +21,17 @@ exports.createFarmer = async (request, response) => {
       "Province": request.body.province,
       "Country": request.body.country,
       "AccountNumber": request.body.accountnumber,
-      "SpouseNationalID": request.body.spousenationalid,
-      "NextOfKinID": request.body.nextofkinnationalid,
-      "FarmID": request.body.farmid,
+      // "SpouseNationalID": request.body.spousenationalid,
+      // "NextOfKinID": request.body.nextofkinnationalid,
+      // "FarmID": request.body.farmid,
       "FarmerID": request.body.farmerid,
-      "CommodityID": request.body.commodityid,
+      // "CommodityID": request.body.commodityid,
     })
-    .then((x) => {
-      if (x.status == 201) {
+    .then((data) => {
+      if (data.status == 201) {
         response.status(201).send("Farmer created successfully!");
       } else {
-        response.status(500).send(x.error);
+        response.status(500).send(data.error);
       }
     })
     .catch((error) => {
@@ -44,8 +44,12 @@ exports.getFarmers = async (_, response) => {
     .from("Farmer")
     .select()
     .then((data) => {
-      if(data.status == 200){
-          response.status(200).send(data.data)
+      if (data.status == 200) {
+        if (Object.keys(data.data).length > 0) {
+          response.status(200).send(data.data);
+        } else {
+          response.status(404).send("No data");
+        }
       }
       else {
           response.status(500).send(data)
@@ -63,9 +67,12 @@ exports.getFarmerByID = async (request, response) => {
     .eq("NationalID", request.query.nationalid)
     .then((data) => {
       if (data.status == 200) {
-        response.status(200).send(data.data);
-      } else {
-        response.status(500).send(data);
+        if (Object.keys(data.data).length > 0) {
+          response.status(200).send(data.data)
+        }
+        else{
+          response.status(404).send('No data')
+        }
       }
     })
     .catch((error) => {

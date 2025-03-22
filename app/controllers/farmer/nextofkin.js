@@ -13,8 +13,8 @@ exports.createNextOfKin = async (request, response) => {
         "FarmerID": request.body.farmerid    
      })
      .then((data) => {
-        if(data.status == 200){
-            response.status(200).send(data.data)
+        if(data.status == 201){
+            response.status(201).send('Next of kin created successfully!')
         }
         else {
             response.status(500).send(data)
@@ -31,11 +31,12 @@ exports.getNextOfKins = async (_, response) => {
      .select()
      .then((data) => {
         if (data.status == 200) {
-         response.status(200).send(data.data)
-        }
-        else {
-         response.status(500).send(data)
-        }
+            if (Object.keys(data.data).length > 0) {
+                response.status(200).send(data.data);
+              } else {
+                response.status(404).send("No data");
+              }
+            }
      })
      .catch((error) => {
         response.status(500).send(error);
@@ -48,10 +49,13 @@ exports.getNextOfKinByID = async (request, response) => {
      .select()
      .eq("NationalID", request.body.nationalID)
      .then((data) => {
-        if (Object.keys(data.data).length > 0){
-            response.status(200).send(data)
-        }
-        else response.status(404).send("Not found")
+        if (data.status == 200){
+            if (Object.keys(data.data).length > 0) {
+                response.status(200).send(data.data);
+              } else {
+                response.status(404).send("No data");
+              }
+            }
      })
      .catch((error) => {
         response.status(500).send(error);

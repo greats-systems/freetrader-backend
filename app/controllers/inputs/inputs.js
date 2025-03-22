@@ -1,17 +1,16 @@
 const supabase = require('../../db/supabase.js')
 
-exports.createCommodity = async (request, response) => {
+exports.createInputs = async (request, response) => {
     await supabase
-     .from('Commodity')
+     .from('Inputs')
      .insert({
-      'FarmID': request.body.farmid,
       'CommodityID' : request.body.commodityid,
-      'CommodityName' : request.body.commodityname,
-      'CommodityProducrPrice' : request.body.commodityproducerprice
+      'Name' : request.body.name,
+      'Description' : request.body.description
      })
      .then((data) => {
        if (data.status == 201){
-          response.status(201).send('Commodity created successfully!')
+          response.status(201).send('Inputs created successfully!')
        }
        else {
           response.status(500).send(data.error)
@@ -22,9 +21,9 @@ exports.createCommodity = async (request, response) => {
      })
  }
  
- exports.getCommodities = async (_, response) => {
+ exports.getInputs = async (_, response) => {
     await supabase
-      .from("Commodity")
+      .from("Inputs")
       .select()
       .then((data) => {
         if(data.status == 200){
@@ -44,6 +43,6 @@ exports.createCommodity = async (request, response) => {
       });
   };
 
-exports.getCommodityByID = async (request, response) => {
+exports.getInputsByID = async (request, response) => {
   throw new Error('Not implemented')
 }

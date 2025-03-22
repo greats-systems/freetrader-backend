@@ -35,6 +35,8 @@ require('./app/routes/farmer/dashboard.js')(app)
 
 require('./app/routes/ward/ward.js')(app)
 
+require('./app/routes/employee/employee.js')(app)
+
 require('./app/routes/root.js')(app)
 
 app.listen(PORT, () => {

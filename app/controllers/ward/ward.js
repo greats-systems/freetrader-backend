@@ -12,9 +12,8 @@ exports.createWard = async (request, response) => {
         "popular_commodity" : request.body.popularCommodity,
      })
      .then((data) => {
-    //    response.send(data)
        if (data.status == 201){
-          response.status(201).send('Farmer created successfully!')
+          response.status(201).send('Ward created successfully!')
        }
        else {
           response.status(500).send(data.error)
@@ -31,7 +30,12 @@ exports.createWard = async (request, response) => {
      .select()
      .then((data) => {
       if(data.status == 200){
-          response.status(200).send(data.data)
+         if (data.data.length > 0) {
+            response.status(200).send(data.data)
+          }
+          else {
+            response.status(404).send('No data')
+          }
       }
       else {
           response.status(500).send(data)
@@ -49,8 +53,13 @@ exports.getWardByID = async (request, response) => {
     .select()
     .eq("BidID", request.body.bidID)
     .then((data) => {
-       if (Object.keys(data.data).length > 0){
-           response.status(200).send(data)
+       if (data.status == 200){
+           if (data.data.length > 0) {
+            response.status(200).send(data.data)
+          }
+          else {
+            response.status(404).send('No data')
+          }
        }
        else response.status(404).send("Not found")
     })

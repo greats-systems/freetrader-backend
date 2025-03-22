@@ -28,7 +28,12 @@ exports.createCropCertificateIssuer = async (request, response) => {
      .select()
      .then((data) => {
          if(data.status == 200){
-            response.status(200).send(data.data)
+            if (data.data.length > 0) {
+               response.status(200).send(data.data)
+             }
+             else {
+               response.status(404).send('No data')
+             }
          }
          else {
             response.status(500).send(data)
@@ -45,8 +50,13 @@ exports.createCropCertificateIssuer = async (request, response) => {
      .select()
      .eq("IssuerID", request.body.issuerID)
      .then((data) => {
-        if (Object.keys(data.data).length > 0){
-            response.status(200).send(data)
+        if (data.status == 200){
+         if (data.data.length > 0) {
+            response.status(200).send(data.data)
+          }
+          else {
+            response.status(404).send('No data')
+          }
         }
         else response.status(404).send("Not found")
      })

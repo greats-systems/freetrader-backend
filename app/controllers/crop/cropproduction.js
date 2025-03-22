@@ -27,8 +27,13 @@ exports.getCropProductions = async (_, response) => {
      .from("Crop")
      .select()
      .then((data) => {
-        if (Object.keys(data.data).length > 0){
-            response.status(200).send(data)
+        if (data.status == 200){
+            if (data.data.length > 0) {
+                response.status(200).send(data.data)
+              }
+              else {
+                response.status(404).send('No data')
+              }
         }
         else response.status(404).send("Not found")
      })
@@ -44,7 +49,12 @@ exports.getCropProductionByID = async (request, response) => {
      .eq("ProductionReferenceID", request.body.productionReferenceID)
      .then((data) => {
         if(data.status == 200){
-            response.status(200).send(data.data)
+            if (data.data.length > 0) {
+                response.status(200).send(data.data)
+              }
+              else {
+                response.status(404).send('No data')
+              }
         }
         else {
             response.status(500).send(data)

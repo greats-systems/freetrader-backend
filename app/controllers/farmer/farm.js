@@ -17,10 +17,10 @@ exports.createFacilityDetails = async (request, response) => {
         "LandType" : request.body.landtype,
         "ArableLandSize" : request.body.arablelandsize,
         "NearestGMBDepot" : request.body.nearestgmbdepot,
-        "CropID" : request.body.cropid,
-        "OfferLetter/PlotNumber" : request.body.offerletterplotnumber,
+        // "CropID" : request.body.cropid,
+        "OfferLetterPlotNumber" : request.body.offerletterplotnumber,
         "AgritexReference" : request.body.agritexreference,
-        "CooperativeID" : request.body.cooperativeid,
+        // "CooperativeID" : request.body.cooperativeid,
         "FarmerID": request.body.farmerid
      })
      .then((data) => {
@@ -42,11 +42,12 @@ exports.getFacilityDetails = async (_, response) => {
      .select()
      .then((data) => {
         if(data.status == 200){
-            response.status(200).send(data.data)
-        }
-        else {
-            response.status(500).send(data)
-        }
+            if (Object.keys(data.data).length > 0) {
+                response.status(200).send(data.data);
+                } else {
+                response.status(404).send("No data");
+                }
+            }
      })
      .catch((error) => {
         response.status(500).send(error);
@@ -59,10 +60,13 @@ exports.getFacilityDetailsByID = async (request, response) => {
      .select()
      .eq("FarmerID", request.query.farmerid)
      .then((data) => {
-        if (Object.keys(data.data).length > 0){
-            response.status(200).send(data)
-        }
-        else response.status(404).send("Not found")
+        if (data.status == 200){
+            if (Object.keys(data.data).length > 0) {
+                response.status(200).send(data.data);
+              } else {
+                response.status(404).send("No data");
+              }
+            }
      })
      .catch((error) => {
         response.status(500).send(error);

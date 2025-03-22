@@ -29,7 +29,12 @@ exports.getCrops = async (_, response) => {
     .select()
     .then((data) => {
       if (data.status == 200) {
+        if (data.data.length > 0) {
           response.status(200).send(data.data)
+        }
+        else {
+          response.status(404).send('No data')
+        }
       }
       else {
           response.status(500).send(data)
@@ -46,7 +51,17 @@ exports.getCropByID = async (request, response) => {
     .select()
     .eq("CropID", request.body.cropID)
     .then((data) => {
-        response.status(200).send(data.data)
+      if (data.data.length > 0) {
+        if (data.data.length > 0) {
+          response.status(200).send(data.data)
+        }
+        else {
+          response.status(404).send('No data')
+        }
+      }
+      else {
+        response.status(404).send('No data')
+      }
     })
     .catch((error) => {
       response.status(500).send(error);

@@ -21,11 +21,12 @@ exports.populateFarmerDashboard = async (_, response) => {
          `
     )
     .then((data) => {
-      //   response.send(data.data)
       if (data.status == 200) {
-        response.status(200).send(data.data);
-      } else {
-        response.status(500).send(data);
+        if (Object.keys(data.data).length > 0) {
+          response.status(200).send(data.data);
+        } else {
+          response.status(404).send("No data");
+        }
       }
     })
     .catch((error) => {
