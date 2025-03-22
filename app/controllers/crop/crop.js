@@ -4,10 +4,10 @@ exports.createCrop = async (request, response) => {
   await supabase
     .from("Crop")
     .insert({
-      "CropID": request.body.cropid,
-      "CropName": request.body.cropname,
-      "Season": request.body.season,
-      "FarmID": request.body.farmid,
+      "cropID": request.body.cropID,
+      "cropName": request.body.cropName,
+      "season": request.body.season,
+      "farmID": request.body.farmID,
       //   "CertificateID" : request.body.certificateID,
     })
     .then((data) => {
@@ -49,7 +49,7 @@ exports.getCropByID = async (request, response) => {
   await supabase
     .from("Crop")
     .select()
-    .eq("CropID", request.body.cropID)
+    .eq("cropID", request.body.cropID)
     .then((data) => {
       if (data.data.length > 0) {
         if (data.data.length > 0) {
@@ -72,11 +72,10 @@ exports.updateCrop = async (request, response) => {
   await supabase
     .from("Crop")
     .update({
-      "CropName": request.body.cropName,
-      "Season": request.body.season,
-      "CropCertificateID": request.body.CropCertificateID,
+      "cropName": request.body.cropName,
+      "season": request.body.season,
     })
-    .eq("CropID", request.body.cropID)
+    .eq("cropID", request.body.cropID)
     .then((_) => {
       response.status(200).send("Crop updated successfully!");
     })
@@ -89,7 +88,7 @@ exports.deleteCrop = async (request, response) => {
   await supabase
     .from("Crop")
     .delete()
-    .eq("CropID", request.body.cropID)
+    .eq("cropID", request.body.cropID)
     .then((_) => {
       response.status(200).send("Crop deleted successfully!");
     })

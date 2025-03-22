@@ -4,10 +4,10 @@ exports.createInputsUtilization = async (request, response) => {
     await supabase
      .from('InputsUtilization')
      .insert({
-      'CommodityID' : request.body.commodityid,
-      'UsageDate': request.body.usagedate,
-      'Quantity' : request.body.name,
-      'Unit' : request.body.description,      
+      'cropID' : request.body.cropID,
+      'usageDate': request.body.usageDate,
+      'quantity' : request.body.quantity,
+      'unit' : request.body.unit,      
      })
      .then((data) => {
        if (data.status == 201){

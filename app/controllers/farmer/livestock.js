@@ -4,13 +4,13 @@ exports.createLivestock = async (request, response) => {
     await supabase
      .from('Livestock')
      .insert({
-       'FarmerID' : request.body.farmerid,
-       'LivestockType' : request.body.livestocktype,
-       'Breed' : request.body.breed,
-       'Sex' : request.body.sex,
-       'DateOfBirth' : request.body.dateofbirth,
-       'DateAcquired' : request.body.dateacquired,
-       'HealthStatus' : request.body.healthstatus,
+       'farmerID' : request.body.farmerID,
+       'livestockType' : request.body.livestockType,
+       'breed' : request.body.breed,
+       'sex' : request.body.sex,
+       'dateOfBirth' : request.body.dateOfBirth,
+       'dateAcquired' : request.body.dateAcquired,
+       'healthStatus' : request.body.healthStatus,
      })
      .then((data) => {
       if(data.status == 201){

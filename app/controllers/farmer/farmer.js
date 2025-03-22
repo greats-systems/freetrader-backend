@@ -4,28 +4,23 @@ exports.createFarmer = async (request, response) => {
   await supabase
     .from("Farmer")
     .insert({
-      "NationalID": request.body.nationalid,
-      "Title": request.body.title,
-      "FirstName": request.body.firstname,
-      "Gender": request.body.gender,
-      "Surname": request.body.surname,
-      "DateOfBirth": request.body.dateofbirth,
-      "MaidenSurname": request.body.maidensurname,
-      "CountryOfBirth": request.body.countryofbirth,
-      "NumberOfDependants": request.body.numberofdependants,
-      "MaritalStatus": request.body.maritalstatus,
-      "EmailAddress": request.body.emailaddress,
-      "MobileNumber": request.body.mobilenumber,
-      "HomeTelephoneNumber": request.body.hometelephonenumber,
-      "PhysicalAddress": request.body.physicaladdress,
-      "Province": request.body.province,
-      "Country": request.body.country,
-      "AccountNumber": request.body.accountnumber,
-      // "SpouseNationalID": request.body.spousenationalid,
-      // "NextOfKinID": request.body.nextofkinnationalid,
-      // "FarmID": request.body.farmid,
-      "FarmerID": request.body.farmerid,
-      // "CommodityID": request.body.commodityid,
+      "farmerID": request.body.farmerID,
+      "nationalID": request.body.nationalID,
+      "title": request.body.title,
+      "firstName": request.body.firstName,
+      "maidenSurname": request.body.maidenSurname,
+      "surname": request.body.surname,
+      "gender": request.body.gender,      
+      "dateOfBirth": request.body.dateOfBirth,
+      "countryOfBirth": request.body.countryOfBirth,
+      "numberOfDependants": request.body.numberOfDependants,
+      "maritalStatus": request.body.maritalStatus,
+      "emailAddress": request.body.emailAddress,
+      "mobileNumber": request.body.mobileNumber,
+      "homeTelephoneNumber": request.body.homeTelephoneNumber,
+      "physicalAddress": request.body.physicalAddress,
+      "province": request.body.province,
+      "country": request.body.country
     })
     .then((data) => {
       if (data.status == 201) {
@@ -64,7 +59,7 @@ exports.getFarmerByID = async (request, response) => {
   await supabase
     .from("Farmer")
     .select()
-    .eq("NationalID", request.query.nationalid)
+    .eq("nationalID", request.query.nationalID)
     .then((data) => {
       if (data.status == 200) {
         if (Object.keys(data.data).length > 0) {
@@ -84,27 +79,24 @@ exports.updateFarmer = async (request, response) => {
   await supabase
     .from("Farmer")
     .update({
-      "Title": request.body.title,
-      "FirstName": request.body.firstName,
-      "Gender": request.body.gender,
-      "Surname": request.body.surname,
-      "DateOfBirth": request.body.dateOfBirth,
-      "MaidenSurname": request.body.madenSurname,
-      "CountryOfBirth": request.body.countryOfBirth,
-      "NumberOfDependants": request.body.numberOfDependants,
-      "MaritalStatus": request.body.maritalStatus,
-      "EmailAddress": request.body.emailAddress,
-      "MobileNumber": request.body.mobileNumber,
-      "HomeTelephoneNumber": request.body.homeTelephoneNumber,
-      "PhysicalAddress": request.body.physicalAddress,
-      "Province": request.body.province,
-      "Country": request.body.country,
-      "AccountNumber": request.body.accountNumber,
-      "SpouseNationalID": request.body.spouseNationalID,
-      "NextOfKinNationalID": request.body.nextOfKinNationalID,
-      "FarmID": request.body.farmID,
+      "nationalID": request.body.nationalid,
+      "title": request.body.title,
+      "firstName": request.body.firstname,
+      "maidenSurname": request.body.maidensurname,
+      "surname": request.body.surname,
+      "gender": request.body.gender,      
+      "dateOfBirth": request.body.dateofbirth,
+      "countryOfBirth": request.body.countryofbirth,
+      "numberOfDependants": request.body.numberofdependants,
+      "maritalStatus": request.body.maritalstatus,
+      "emailAddress": request.body.emailaddress,
+      "mobileNumber": request.body.mobilenumber,
+      "homeTelephoneNumber": request.body.hometelephonenumber,
+      "physicalAddress": request.body.physicaladdress,
+      "province": request.body.province,
+      "country": request.body.country
     })
-    .eq("NationalID", request.body.nationalID)
+    .eq("farmerID", request.body.farmerID)
     .then((_) => {
       response.status(200).send("Farmer updated successfully!");
     })
@@ -117,7 +109,7 @@ exports.deleteFarmer = async (request, response) => {
   await supabase
     .from("Farmer")
     .delete()
-    .eq("NationalID", request.body.nationalID)
+    .eq("nationalID", request.body.nationalID)
     .then((_) => {
       response.status(200).send("Farmer deleted successfully!");
     })

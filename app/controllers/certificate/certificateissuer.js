@@ -4,10 +4,10 @@ exports.createCropCertificateIssuer = async (request, response) => {
     await supabase
      .from("CertificateIssuer")
      .insert({
-        "IssuerName": request.body.issuerName,
-        "IssuerID": request.body.issuerID,
-        "AllowedToExport" : request.body.allowedToExport,
-        "CertificateID" : request.body.certificateID
+        "issuerName": request.body.issuerName,
+      //   "issuerID": request.body.issuerID,
+        "allowedToExport" : request.body.allowedToExport,
+        "certificateID" : request.body.certificateID
      })
      .then((data) => {
         if (data.status == 201){
@@ -48,7 +48,7 @@ exports.createCropCertificateIssuer = async (request, response) => {
     await supabase
      .from("CertificateIssuer")
      .select()
-     .eq("IssuerID", request.body.issuerID)
+     .eq("issuerID", request.body.issuerID)
      .then((data) => {
         if (data.status == 200){
          if (data.data.length > 0) {
@@ -69,11 +69,11 @@ exports.createCropCertificateIssuer = async (request, response) => {
     await supabase
      .from("CertificateIssuer")
      .update({
-       "IssuerName": request.body.issuerName,     
-       "AllowedToExport" : request.body.allowedToExport,
-       "CertificateID" : request.body.certificateID
+       "issuerName": request.body.issuerName,     
+       "allowedToExport" : request.body.allowedToExport,
+       "certificateID" : request.body.certificateID
      })
-     .eq("IssuerID", request.body.issuerID)
+     .eq("issuerID", request.body.issuerID)
      .then((_) => {
         response.status(200).send("GMB Certificate updated successfully!")
      })
@@ -86,7 +86,7 @@ exports.createCropCertificateIssuer = async (request, response) => {
     await supabase
      .from("CertificateIssuer")
      .delete()
-     .eq("IssuerID", request.body.issuerID,)
+     .eq("issuerID", request.body.issuerID)
      .then((_) => {
         response.status(200).send("Certificate deleted successfully!");
       })

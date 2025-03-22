@@ -18,6 +18,7 @@ require('./app/routes/certificate/certificate.js')(app)
 require('./app/routes/certificate/certificateissuer.js')(app)
 
 require('./app/routes/commodity/commodity.js')(app)
+require('./app/routes/commodity/commodityproduction.js')(app)
 
 require('./app/routes/contract/contract.js')(app)
 require('./app/routes/contract/contractbid.js')(app)
@@ -32,6 +33,12 @@ require('./app/routes/farmer/livestock.js')(app)
 require('./app/routes/farmer/nextofkin.js')(app)
 require('./app/routes/farmer/cooperative.js')(app)
 require('./app/routes/farmer/dashboard.js')(app)
+
+require('./app/routes/inputs/inputs.js')(app)
+require('./app/routes/inputs/inputsinventory.js')(app)
+require('./app/routes/inputs/inputsutilization.js')(app)
+
+require('./app/routes/payroll/payroll.js')(app)
 
 require('./app/routes/ward/ward.js')(app)
 

@@ -4,10 +4,10 @@ exports.createCropProduction = async (request, response) => {
     await supabase
      .from("Crop")
      .insert({
-        "CropID": request.body.cropID,
-        "PlantingDate" : request.body.plantingDate,
-        "HarvestDate" : request.body.harvestDate,
-        "CropYield" : request.body.cropYield
+        "cropID": request.body.cropID,
+        "plantingDate" : request.body.plantingDate,
+        "harvestDate" : request.body.harvestDate,
+        "cropYield" : request.body.cropYield
      })
      .then((data) => {
         if(data.status == 201){
@@ -46,7 +46,7 @@ exports.getCropProductionByID = async (request, response) => {
     await supabase
      .from("Crop")
      .select()
-     .eq("ProductionReferenceID", request.body.productionReferenceID)
+     .eq("cropID", request.body.cropID)
      .then((data) => {
         if(data.status == 200){
             if (data.data.length > 0) {
@@ -69,11 +69,11 @@ exports.updateCropProduction = async (request, response) => {
     await supabase
      .from("Crop")
      .update({
-        "PlantingDate" : request.body.plantingDate,
-        "HarvestDate" : request.body.harvestDate,
-        "CropYield" : request.body.cropYield, 
+        "plantingDate" : request.body.plantingDate,
+        "harvestDate" : request.body.harvestDate,
+        "cropYield" : request.body.cropYield
      })
-     .eq("ProductionReferenceID", request.body.productionReferenceID)
+     .eq("cropID", request.body.cropID)
      .then((_) => {
         response.status(200).send("Crop updated successfully!")
      })
@@ -86,7 +86,7 @@ exports.deleteCropProduction = async (request, response) => {
     await supabase
      .from("Crop")
      .delete()
-     .eq("ProductionReferenceID", request.body.productionReferenceID)
+     .eq("cropID", request.body.cropID)
      .then((_) => {
         response.status(200).send("Crop deleted successfully!");
       })

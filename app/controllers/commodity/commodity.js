@@ -4,10 +4,10 @@ exports.createCommodity = async (request, response) => {
     await supabase
      .from('Commodity')
      .insert({
-      'FarmID': request.body.farmid,
-      'CommodityID' : request.body.commodityid,
-      'CommodityName' : request.body.commodityname,
-      'CommodityProducrPrice' : request.body.commodityproducerprice
+      // 'FarmID': request.body.farmid,
+      'commodityID' : request.body.commodityID,
+      'commodityName' : request.body.commodityName,
+      'commodityProducerPrice' : request.body.commodityProducerPrice
      })
      .then((data) => {
        if (data.status == 201){

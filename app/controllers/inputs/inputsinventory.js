@@ -4,10 +4,10 @@ exports.createInputsInventory = async (request, response) => {
     await supabase
      .from('InputsInventory')
      .insert({
-      'CommodityID' : request.body.commodityid,
-      'Quantity' : request.body.name,
-      'Unit' : request.body.description,
-      'DateUpdated': request.body.dateupdated
+      'commodityID' : request.body.commodityID,
+      'quantity' : request.body.quantity,
+      'unit' : request.body.unit,
+      'dateUpdated': request.body.dateUpdated
      })
      .then((data) => {
        if (data.status == 201){

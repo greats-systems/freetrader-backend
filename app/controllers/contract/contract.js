@@ -4,14 +4,15 @@ exports.createContract = async (request, response) => {
     await supabase
      .from("Contract")
      .insert({
-        "ContractID": request.body.contractID,
-        "ContractTitle": request.body.contractTitle,
-        "ContractDescription" : request.body.contractDescription,
-        "ContractValue" : request.body.contractValue,
-        "TenderDate" : request.body.tenderDate,
-        "ClosingDate" : request.body.closingDate,
-        "AwardDate" : request.body.awardDate,
-        "AwardedTo" : request.body.awardedTo
+        "contractID": request.body.contractID,
+        "contractTitle": request.body.contractTitle,
+        "contractDescription" : request.body.contractDescription,
+        "contractValue" : request.body.contractValue,
+        "tenderDate" : request.body.tenderDate,
+        "closingDate" : request.body.closingDate,
+        "awardDate" : request.body.awardDate,
+        "awardedTo" : request.body.awardedTo,
+        "issuerID":request.body.issuerID
      })
      .then((_) => {
         response.status(201).send("Contract created successfully!")
@@ -68,15 +69,16 @@ exports.createContract = async (request, response) => {
     await supabase
      .from("Contract")
      .update({
-       "ContractTitle": request.body.contractTitle,
-       "ContractDescription" : request.body.contractDescription,
-       "ContractValue" : request.body.contractValue,
-       "TenderDate" : request.body.tenderDate,
-       "ClosingDate" : request.body.closingDate,
-       "AwardDate" : request.body.awardDate,
-       "AwardedTo" : request.body.awardedTo
+         "contractTitle": request.body.contractTitle,
+         "contractDescription" : request.body.contractDescription,
+         "contractValue" : request.body.contractValue,
+         "tenderDate" : request.body.tenderDate,
+         "closingDate" : request.body.closingDate,
+         "awardDate" : request.body.awardDate,
+         "awardedTo" : request.body.awardedTo,
+         "issuerID":request.body.issuerID
      })
-     .eq("ContractID", request.body.contractID)
+     .eq("contractID", request.body.contractID)
      .then((_) => {
         response.status(200).send("Contract updated successfully!")
      })
@@ -89,7 +91,7 @@ exports.createContract = async (request, response) => {
     await supabase
      .from("CertificateIssuer")
      .delete()
-     .eq("ContractID", request.body.contractID)
+     .eq("contractID", request.body.contractID)
      .then((_) => {
         response.status(200).send("Contract deleted successfully!");
       })

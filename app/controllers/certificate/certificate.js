@@ -4,15 +4,15 @@ exports.createCertificate = async (request, response) => {
     await supabase
      .from("CropCertificate")
      .insert({
-        "CropID": request.body.cropID,
-        "CertificateID": request.body.certificateID,
-        "CertificateName" : request.body.certificateName,
-        "IssuedBy" : request.body.issuedBy,
-        "DateOfIssue" : request.body.dateOfIssue,
-        "MarketValueOnDateOfIssue" : request.body.marketValueOnDateOfIssue,
-        "CropGrade" : request.body.cropGrade,
-        "DateOfExpiry" : request.body.dateOfExpiry,
-        "MarketValueOnDateOfExpiry" : request.body.marketValueOnDateOfExpiry,
+        "cropID": request.body.cropID,
+        "certificateID": request.body.certificateID,
+        "certificateName" : request.body.certificateName,
+        "issuedBy" : request.body.issuedBy,
+        "dateOfIssue" : request.body.dateOfIssue,
+        "marketValueOnDateOfIssue" : request.body.marketValueOnDateOfIssue,
+        "cropGrade" : request.body.cropGrade,
+        "dateOfExpiry" : request.body.dateOfExpiry,
+        "marketValueOnDateOfExpiry" : request.body.marketValueOnDateOfExpiry,
      })
      .then((data) => {
         if (data.status == 201){
@@ -75,15 +75,15 @@ exports.updateCropCertificate = async (request, response) => {
      .from("CropCertificate")
      .update({
     //   "CropID": request.body.certificateID,
-      "CertificateName" : request.body.certificateName,
-      "IssuedBy" : request.body.issuedBy,
-      "DateOfIssue" : request.body.dateOfIssue,
-      "MarketValueOnDateOfIssue" : request.body.marketValueOnDateOfIssue,
-      "CropGrade" : request.body.cropGrade,
-      "DateOfExpiry" : request.body.dateOfExpiry,
-      "MarketValueOnDateOfExpiry" : request.body.marketValueOnDateOfExpiry,
+      "certificateName" : request.body.certificateName,
+      "issuedBy" : request.body.issuedBy,
+      "dateOfIssue" : request.body.dateOfIssue,
+      "marketValueOnDateOfIssue" : request.body.marketValueOnDateOfIssue,
+      "cropGrade" : request.body.cropGrade,
+      "dateOfExpiry" : request.body.dateOfExpiry,
+      "marketValueOnDateOfExpiry" : request.body.marketValueOnDateOfExpiry,
      })
-     .eq("CertificateID", request.body.certificateID,)
+     .eq("certificateID", request.body.certificateID,)
      .then((_) => {
         response.status(200).send("Certificate updated successfully!")
      })
@@ -96,7 +96,7 @@ exports.deleteCropCertificate = async (request, response) => {
     await supabase
      .from("CropCertificate")
      .delete()
-     .eq("CropCertificateID", request.body.cropCertificateID)
+     .eq("cropCertificateID", request.body.cropCertificateID)
      .then((_) => {
         response.status(200).send("GMB Certificate deleted successfully!");
       })

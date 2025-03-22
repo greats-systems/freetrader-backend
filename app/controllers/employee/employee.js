@@ -40,14 +40,14 @@ exports.createEmployee = async (request, response) => {
     await supabase
      .from("FarmerEmployee")
      .insert({
-        "FarmerID" : request.body.farmerID,
-        "FirstName" : request.body.firstName,
-        "Surname" : request.body.surname,
-        "Role" : request.body.role,
-        "HireDate" : request.body.hireDate,
-        "BaseSalary": request.body.baseSalary,
-        "GrossSalary" : request.body.grossSalary,
-        "NetSalary": netPay
+        "farmerID" : request.body.farmerID,
+        "firstName" : request.body.firstName,
+        "surname" : request.body.surname,
+        "role" : request.body.role,
+        "hireDate" : request.body.hireDate,
+        "baseSalary": request.body.baseSalary,
+        "grossSalary" : request.body.grossSalary,
+        "netSalary": netPay
      })
      .then((data) => {
         if (data.status == 201){
@@ -139,11 +139,12 @@ exports.updateEmployee = async (request, response) => {
     await supabase
      .from("FarmerEmployee")
      .update({
-        "Role" : request.body.role,
-        "BaseSalary": request.body.basesalary,
-        "GrossSalary" : request.body.grosssalary,
+        "role" : request.body.role,
+        "baseSalary": request.body.baseSalary,
+        "grossSalary" : request.body.grossSalary,
         "NetSalary": netPay       
      })
+     .eq("employeeID", request.body.employeeID)
      .then((_) => {
         response.status(200).send("Farmer Employee updated successfully!")
      })

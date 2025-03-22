@@ -4,10 +4,10 @@ exports.createCommodityProduction = async (request, response) => {
     await supabase
      .from('CommodityProduction')
      .insert({
-      'CommodityID' : request.body.commodityid,
-      'PlantingDate' : request.body.commodityname,
-      'HarvestDate': request.body.season,
-      'Yield' : request.body.yield
+      'commodityID' : request.body.commodityID,
+      'plantingDate' : request.body.plantingDate,
+      'harvestDate': request.body.harvestDate,
+      'yield' : request.body.yield
      })
      .then((data) => {
        if (data.status == 201){
@@ -44,6 +44,6 @@ exports.createCommodityProduction = async (request, response) => {
       });
   };
 
-exports.getCommodityByID = async (request, response) => {
+exports.getCommodityProductionByID = async (request, response) => {
   throw new Error('Not implemented')
 }

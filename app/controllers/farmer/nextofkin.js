@@ -4,13 +4,13 @@ exports.createNextOfKin = async (request, response) => {
     await supabase
      .from("FarmerNextOfKin")
      .insert({
-        "NationalID": request.body.nationalid,
-        "FirstName" : request.body.firstname,
-        "Surname" : request.body.surname,
-        "Address" : request.body.address,
-        "PhoneNumber" : request.body.phonenumber,
-        "Relationship": request.body.relationship,
-        "FarmerID": request.body.farmerid    
+        "nationalID": request.body.nationalID,
+        "firstName" : request.body.firstName,
+        "surname" : request.body.surname,
+        "address" : request.body.address,
+        "phoneNumber" : request.body.phoneNumber,
+        "relationshipToFarmer": request.body.relationshipToFarmer,
+        "farmerID": request.body.farmerID   
      })
      .then((data) => {
         if(data.status == 201){
@@ -47,7 +47,7 @@ exports.getNextOfKinByID = async (request, response) => {
     await supabase
      .from("FarmerNextOfKin")
      .select()
-     .eq("NationalID", request.body.nationalID)
+     .eq("nationalID", request.body.nationalID)
      .then((data) => {
         if (data.status == 200){
             if (Object.keys(data.data).length > 0) {
@@ -66,12 +66,14 @@ exports.updateNextOfKin = async (request, response) => {
     await supabase
      .from("FarmerNextOfKin")
      .update({
-        "FirstName" : request.body.firstName,
-        "Surname" : request.body.surname,
-        "Address" : request.body.address,
-        "PhoneNumber" : request.body.phoneNumber,        
+        "firstName" : request.body.firstName,
+        "surname" : request.body.surname,
+        "address" : request.body.address,
+        "phoneNumber" : request.body.phoneNumber,
+        "relationshipToFarmer": request.body.relationshipToFarmer,
+        "farmerID": request.body.farmerID         
      })
-     .eq("NationalID", request.body.nationalID)
+     .eq("nationalID", request.body.nationalID)
      .then((_) => {
         response.status(200).send("Farmer next of kin updated successfully!")
      })
@@ -84,9 +86,9 @@ exports.deleteNextOfKin = async (request, response) => {
     await supabase
      .from("FarmerNextOfKin")
      .delete()
-    //  .eq("NationalID", request.body.nationalID)
-     .eq("FirstName", request.body.firstName)
-     .eq("Surname", request.body.surname)
+     .eq("nationalID", request.body.nationalID)
+    //  .eq("FirstName", request.body.firstName)
+    //  .eq("Surname", request.body.surname)
      .then((_) => {
         response.status(200).send("Farmer next of kin deleted successfully!");
       })

@@ -4,15 +4,15 @@ exports.createBankDetails = async (request, response) => {
     await supabase
      .from("FarmerBankDetails")
      .insert({
-        "AccountNumber": request.body.accountnumber,
-        "BankName" : request.body.bankname,
-        "BranchName" : request.body.branchname,
-        "BranchCode" : request.body.branchcode,
-        "AccountName" : request.body.accountname,
-        "AccountType" : request.body.accounttype,
-        "WalletAddress" : request.body.walletaddress,
-        "WalletType" : request.body.wallettype,    
-        "FarmerID": request.body.farmerid    
+        "accountNumber": request.body.accountNumber,
+        "bankName" : request.body.bankName,
+        "branchName" : request.body.branchName,
+        "branchCode" : request.body.branchCode,
+        "accountName" : request.body.accountName,
+        "accountType" : request.body.accountType,
+        "walletAddress" : request.body.walletAddress,
+        "walletType" : request.body.walletType,    
+        "farmerID": request.body.farmerID    
      })
      .then((_) => {
         response.status(201).send("Farmer bank details created successfully!")
@@ -44,7 +44,7 @@ exports.getBankDetailsByID = async (request, response) => {
     await supabase
      .from("FarmerBankDetails")
      .select()
-     .eq("FarmerID", request.body.farmerid)
+     .eq("farmerID", request.body.farmerID)
      .then((data) => {
         if (Object.keys(data.data).length > 0) {
             response.status(200).send(data.data)
@@ -62,15 +62,15 @@ exports.updateBankDetails = async (request, response) => {
     await supabase
      .from("FarmerBankDetails")
      .update({
-        "BankName" : request.body.bankName,
-        "BranchName" : request.body.branchName,
-        "BranchCode" : request.body.branchCode,
-        "AccountName" : request.body.accountName,
-        "AccountType" : request.body.accountType,
-        "WalletAddress" : request.body.walletAddress,
-        "WalletType" : request.body.walletType,            
+        "bankName" : request.body.bankName,
+        "branchName" : request.body.branchName,
+        "branchCode" : request.body.branchCode,
+        "accountName" : request.body.accountName,
+        "accountType" : request.body.accountType,
+        "walletAddress" : request.body.walletAddress,
+        "walletType" : request.body.walletType,     
      })
-     .eq("AccountNumber", request.body.accountNumber)
+     .eq("accountNumber", request.body.accountNumber)
      .then((_) => {
         response.status(200).send("Farmer bank details updated successfully!")
      })
@@ -83,9 +83,10 @@ exports.deleteBankDetails = async (request, response) => {
     await supabase
      .from("FarmerBankDetails")
      .delete()
+     .eq("accountNumber", request.body.accountNumber)
     //  .eq("NationalID", request.body.nationalID)
-     .eq("FirstName", request.body.firstName)
-     .eq("Surname", request.body.surname)
+    //  .eq("FirstName", request.body.firstName)
+    //  .eq("Surname", request.body.surname)
      .then((_) => {
         response.status(200).send("Farmer bank details deleted successfully!");
       })

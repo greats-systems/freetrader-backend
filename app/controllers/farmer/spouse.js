@@ -4,12 +4,12 @@ exports.createSpouse = async (request, response) => {
     await supabase
      .from("FarmerSpouse")
      .insert({
-        "NationalID": request.body.nationalid,
-        "FirstName" : request.body.firstname,
-        "Surname" : request.body.surname,
-        "Address" : request.body.address,
-        "PhoneNumber" : request.body.phonenumber,
-        "FarmerID": request.body.farmerid 
+        "nationalID": request.body.nationalID,
+        "firstName" : request.body.firstName,
+        "surname" : request.body.surname,
+        "address" : request.body.address,
+        "phoneNumber" : request.body.phoneNumber,
+        "farmerID": request.body.farmerID 
      })
      .then((data) => {
         if (data.status == 201){
@@ -46,7 +46,7 @@ exports.getSpouseByID = async (request, response) => {
     await supabase
      .from("FarmerSpouse")
      .select()
-     .eq("NationalID", request.body.nationalID)
+     .eq("nationalID", request.body.nationalID)
      .then((data) => {
         if (data.status == 200) {
             if (Object.keys(data.data).length > 0) {
@@ -65,11 +65,12 @@ exports.updateSpouse = async (request, response) => {
     await supabase
      .from("FarmerSpouse")
      .update({
-        "FirstName" : request.body.firstName,
-        "Surname" : request.body.surname,
-        "Address" : request.body.address,
-        "PhoneNumber" : request.body.phoneNumber,        
+        "firstName" : request.body.firstName,
+        "surname" : request.body.surname,
+        "address" : request.body.address,
+        "phoneNumber" : request.body.phoneNumber,       
      })
+     .eq("spouseID", request.body.spouseID)
      .then((_) => {
         response.status(200).send("Farmer spouse updated successfully!")
      })
@@ -82,9 +83,9 @@ exports.deleteSpouse = async (request, response) => {
     await supabase
      .from("FarmerSpouse")
      .delete()
-    //  .eq("NationalID", request.body.nationalID)
-     .eq("FirstName", request.body.firstName)
-     .eq("Surname", request.body.surname)
+     .eq("spouseID", request.body.spouseID)
+    //  .eq("FirstName", request.body.firstName)
+    //  .eq("Surname", request.body.surname)
      .then((_) => {
         response.status(200).send("Farmer spouse deleted successfully!");
       })

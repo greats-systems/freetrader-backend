@@ -2,15 +2,15 @@ const supabase = require('../../db/supabase.js')
 
 exports.createInputs = async (request, response) => {
     await supabase
-     .from('Inputs')
+     .from('CropInputs')
      .insert({
-      'CommodityID' : request.body.commodityid,
-      'Name' : request.body.name,
-      'Description' : request.body.description
+      'cropID' : request.body.cropID,
+      'name' : request.body.name,
+      'description' : request.body.description
      })
      .then((data) => {
        if (data.status == 201){
-          response.status(201).send('Inputs created successfully!')
+          response.status(201).send('CropInputs created successfully!')
        }
        else {
           response.status(500).send(data.error)
@@ -23,7 +23,7 @@ exports.createInputs = async (request, response) => {
  
  exports.getInputs = async (_, response) => {
     await supabase
-      .from("Inputs")
+      .from("CropInputs")
       .select()
       .then((data) => {
         if(data.status == 200){

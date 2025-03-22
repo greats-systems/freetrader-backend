@@ -4,13 +4,13 @@ exports.createContractBid = async (request, response) => {
     await supabase
      .from("ContractBid")
      .insert({
-        "BidID": request.body.bidID,
-        "ContractID": request.body.contractID,
-        "CompanyID" : request.body.companyID,
-        "BidOpeningDate" : request.body.bidOpeningDate,
-        "BidStatus" : request.body.bidStatus,
-        "BidAmount" : request.body.bidAmount,
-        "BidClosingDate" : request.body.bidClosingDate
+        "bidID": request.body.bidID,
+        "contractID": request.body.contractID,
+        "companyID" : request.body.companyID,
+        "bidOpeningDate" : request.body.bidOpeningDate,
+        "bidStatus" : request.body.bidStatus,
+        "bidAmount" : request.body.bidAmount,
+        "bidClosingDate" : request.body.bidClosingDate
      })
      .then((_) => {
         response.status(201).send("ContractBid created successfully!")
@@ -67,14 +67,14 @@ exports.createContractBid = async (request, response) => {
     await supabase
      .from("ContractBid")
      .update({      
-       "ContractID": request.body.contractID,
-       "CompanyID" : request.body.companyID,
-       "BidOpeningDate" : request.body.bidOpeningDate,
-       "BidStatus" : request.body.bidStatus,
-       "BidAmount" : request.body.bidAmount,
-       "BidClosingDate" : request.body.bidClosingDate,
+        "contractID": request.body.contractID,
+        "companyID" : request.body.companyID,
+        "bidOpeningDate" : request.body.bidOpeningDate,
+        "bidStatus" : request.body.bidStatus,
+        "bidAmount" : request.body.bidAmount,
+        "bidClosingDate" : request.body.bidClosingDate
      })
-     .eq("BidID", request.body.bidID)
+     .eq("bidID", request.body.bidID)
      .then((_) => {
         response.status(200).send("ContractBid updated successfully!")
      })
@@ -87,7 +87,7 @@ exports.createContractBid = async (request, response) => {
     await supabase
      .from("CertificateIssuer")
      .delete()
-     .eq("BidID", request.body.bidID)
+     .eq("bidID", request.body.bidID)
      .then((_) => {
         response.status(200).send("ContractBid deleted successfully!");
       })
