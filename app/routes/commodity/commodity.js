@@ -4,6 +4,7 @@ module.exports = (app) => {
 
     router.post('/commodity/create', controller.createCommodity)
     router.get('/commodities', controller.getCommodities)
+    router.get('/commodity', controller.getCommodityByID)
 
     app.use('/api', router)
 }

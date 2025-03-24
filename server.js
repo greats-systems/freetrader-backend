@@ -26,6 +26,9 @@ require('./app/routes/contract/contractbid.js')(app)
 require('./app/routes/crop/crop.js')(app)
 require('./app/routes/crop/cropproduction.js')(app)
 
+
+require('./app/routes/employee/employee.js')(app)
+
 require('./app/routes/farmer/bankaccount.js')(app)
 require('./app/routes/farmer/farm.js')(app)
 require('./app/routes/farmer/farmer.js')(app)
@@ -38,11 +41,15 @@ require('./app/routes/inputs/inputs.js')(app)
 require('./app/routes/inputs/inputsinventory.js')(app)
 require('./app/routes/inputs/inputsutilization.js')(app)
 
+require('./app/routes/markets/markets.js')(app)
+
 require('./app/routes/payroll/payroll.js')(app)
 
-require('./app/routes/ward/ward.js')(app)
+require('./app/routes/products/products.js')(app)
 
-require('./app/routes/employee/employee.js')(app)
+require('./app/routes/profiles/profiles.js')(app)
+
+require('./app/routes/ward/ward.js')(app)
 
 require('./app/routes/root.js')(app)
 
