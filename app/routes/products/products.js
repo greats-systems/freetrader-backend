@@ -4,8 +4,9 @@ module.exports = (app) => {
 
     router.post('/product/create', controller.createProduct)
     router.get('/products', controller.getProducts)
+    router.get('/products/business', controller.getBusinessProducts)
     router.get('/product', controller.getProductByID)
-    router.get('/product-categories', controller.getProductsCategories)
+    router.get('/product-categories', controller.getProductsCategories)    
     router.patch('/product/update', controller.updateProduct)
     router.delete('product/delete', controller.deleteProduct)
 

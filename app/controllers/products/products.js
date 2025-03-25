@@ -81,6 +81,63 @@ exports.getProductsCategories = async (request, response) => {
     })
 }
 
+exports.getBusinessProducts = async (request, response) => {
+   await supabase
+    .from('Products')
+    .select(`
+      *,
+      Profiles(
+         profile_id : id,
+         profile_city : city,
+         profile_email: email,
+         profile_phone: phone,
+         profile_avatar: avatar,
+         profile_country: country,
+         profile_user_id: user_id,
+         profile_last_name: last_name,
+         profile_created_at: created_at,
+         profile_first_name: first_name,
+         profile_account_type: account_type,
+         profile_neighbourhood: neighbourhood
+         ) 
+      `)
+      .eq('business_id', request.body.business_id)
+      .then((data) => {
+         if (data.status == 200){
+            
+            // Remove nested JSON format
+            const rawData = data.data
+            const transformedData = rawData.map((item) => {
+               const { Profiles, ...rest } = item
+               return {
+                  ...rest,
+                  profile_id: Profiles?.profile_id ?? null,
+                  profile_city: Profiles?.profile_city ?? null,
+                  profile_email: Profiles?.profile_email ?? null,
+                  profile_phone: Profiles?.profile_phone ?? null,
+                  profile_avatar: Profiles?.profile_avatar ?? null,
+                  profile_country: Profiles?.profile_country ?? null,
+                  profile_user_id: Profiles?.profile_user_id ?? null,
+                  profile_last_name: Profiles?.profile_last_name ?? null,
+                  profile_created_at: Profiles?.profile_created_at ?? null,
+                  profile_first_name: Profiles?.profile_first_name ?? null,
+                  profile_account_type: Profiles?.profile_account_type ?? null,
+                  profile_neighbourhood: Profiles?.profile_neighbourhood ?? null
+               }
+            })            
+            response.status(200).send(transformedData)  
+              
+            // response.status(200).send(data.data)
+         }
+         else {
+            response.status(500).send(data.error)
+         }
+       })
+       .catch((error) => {
+           response.status(500).send(error)
+       })
+}
+
 exports.getProductByID = async (request, response) => {
     await supabase
      .from('Products')

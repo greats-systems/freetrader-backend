@@ -47,6 +47,9 @@ require('./app/routes/payroll/payroll.js')(app)
 
 require('./app/routes/products/products.js')(app)
 
+require('./app/routes/posts/posts.js')(app)
+
+require('./app/routes/profiles/businesses.js')(app)
 require('./app/routes/profiles/profiles.js')(app)
 
 require('./app/routes/ward/ward.js')(app)

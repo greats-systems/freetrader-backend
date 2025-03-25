@@ -89,7 +89,7 @@ exports.getMarketplaceSliderCommodities = async (_, response) => {
          profile_neighbourhood: neighbourhood
       )
    `)
-   .eq()
+   // .eq()
    .then((data) => {
       if (data.status == 200){
          
