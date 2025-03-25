@@ -52,6 +52,8 @@ require('./app/routes/posts/posts.js')(app)
 require('./app/routes/profiles/businesses.js')(app)
 require('./app/routes/profiles/profiles.js')(app)
 
+require('./app/routes/reiews/reviews.js')(app)
+
 require('./app/routes/ward/ward.js')(app)
 
 require('./app/routes/root.js')(app)
