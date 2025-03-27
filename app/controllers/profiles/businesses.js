@@ -66,25 +66,12 @@ exports.getLocalCategoryBusinessList = async (request, response) => {
     .from('Organizations')
     .select(`
       *,
-      Profiles(
-         profile_id : id,
-         profile_city : city,
-         profile_email: email,
-         profile_phone: phone,
-         profile_avatar: avatar,
-         profile_country: country,
-         profile_user_id: user_id,
-         profile_last_name: last_name,
-         profile_created_at: created_at,
-         profile_first_name: first_name,
-         profile_account_type: account_type,
-         profile_neighbourhood: neighbourhood
-         )`
+      Profiles(*)`
       )
       .eq('category', request.body.category)
       .then((data) => {
          if (data.status == 200){
-            
+            /*
             // Remove nested JSON format
             const rawData = data.data
             const transformedData = rawData.map((item) => {
@@ -106,8 +93,8 @@ exports.getLocalCategoryBusinessList = async (request, response) => {
                }
             })            
             response.status(200).send(transformedData)  
-              
-            // response.status(200).send(data.data)
+              */
+            response.status(200).send(data.data)
          }
          else {
             response.status(500).send(data.error)
@@ -140,7 +127,7 @@ exports.getVerifiedBusinessList = async (_, response) => {
       )
       .then((data) => {
          if (data.status == 200){
-            
+            /*
             // Remove nested JSON format
             const rawData = data.data
             const transformedData = rawData.map((item) => {
@@ -162,8 +149,8 @@ exports.getVerifiedBusinessList = async (_, response) => {
                }
             })            
             response.status(200).send(transformedData)  
-              
-            // response.status(200).send(data.data)
+              */
+            response.status(200).send(data.data)
          }
          else {
             response.status(500).send(data.error)
@@ -197,7 +184,7 @@ exports.getMarketSubscribingBusinessList = async (request, response) => {
       .contains('subscribed_trading_markets', request.body.marketID)
       .then((data) => {
          if (data.status == 200){
-            
+            /*
             // Remove nested JSON format
             const rawData = data.data
             const transformedData = rawData.map((item) => {
@@ -219,8 +206,8 @@ exports.getMarketSubscribingBusinessList = async (request, response) => {
                }
             })            
             response.status(200).send(transformedData)  
-              
-            // response.status(200).send(data.data)
+              */
+            response.status(200).send(data.data)
          }
          else {
             response.status(500).send(data.error)
@@ -235,26 +222,12 @@ exports.getLocalMarketBusinessList = async (request, response) => {
    await supabase
     .from('Organizations')
     .select(`
-      *,
-      Profiles(
-         profile_id : id,
-         profile_city : city,
-         profile_email: email,
-         profile_phone: phone,
-         profile_avatar: avatar,
-         profile_country: country,
-         profile_user_id: user_id,
-         profile_last_name: last_name,
-         profile_created_at: created_at,
-         profile_first_name: first_name,
-         profile_account_type: account_type,
-         profile_neighbourhood: neighbourhood
-         )`
+      *, Profiles(*)`
       )
       .eq('city', request.body.city)
       .then((data) => {
          if (data.status == 200){
-            
+            /*
             // Remove nested JSON format
             const rawData = data.data
             const transformedData = rawData.map((item) => {
@@ -276,8 +249,8 @@ exports.getLocalMarketBusinessList = async (request, response) => {
                }
             })            
             response.status(200).send(transformedData)  
-              
-            // response.status(200).send(data.data)
+              */
+            response.status(200).send(data.data)
          }
          else {
             response.status(500).send(data.error)

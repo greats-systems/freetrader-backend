@@ -4,7 +4,7 @@ module.exports = (app) => {
 
     router.post('/markets/create', controller.createMarket)
     router.get('/markets', controller.getMarkets)
-    router.get('/market', controller.getMarketByCategory)
+    // router.get('/marketplace/city-or-category', controller.getMarketplaceProductsByCategoryOrCity)
     router.get('/marketplace-slider-commodities', controller.getMarketplaceSliderCommodities)
     router.get('/marketplace-commodities', controller.getMarketplaceCommodities)
     router.get('/marketplace-products', controller.getMarketplaceProducts)

@@ -7,7 +7,7 @@ module.exports = (app) => {
     router.get('/businesses/profile', controller.getProfileBusinessList)
     router.get('/businesses/local/category', controller.getLocalCategoryBusinessList)
     router.get('/businesses/verified', controller.getVerifiedBusinessList)
-    router.get('businesses/local', controller.getLocalMarketBusinessList)
+    router.get('/businesses/local', controller.getLocalMarketBusinessList)
     router.get('/businesses/market/subscribing', controller.getMarketSubscribingBusinessList)
     router.get('/business', controller.getBusinessByID)
     router.patch('/business/update', controller.updateBusiness)

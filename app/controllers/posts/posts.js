@@ -73,6 +73,24 @@ exports.getPostsByID = async (request, response) => {
       })
 }
 
+exports.getPostsByType = async (request, response) => {
+   await supabase
+    .from('Posts')
+    .select()
+    .ilike('category', request.body.category)
+    .then((data) => {
+       if (data.status == 200){
+          response.status(200).send(data.data)
+       }
+       else {
+          response.status(500).send(data)
+       }
+     })
+     .catch((error) => {
+         response.status(500).send(error)
+     })
+}
+
 exports.updatePost = async (request, response) => {
     await supabase
      .from('Posts')

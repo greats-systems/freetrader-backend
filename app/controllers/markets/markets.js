@@ -75,24 +75,13 @@ exports.getMarketplaceSliderCommodities = async (_, response) => {
    await supabase
     .from('Products')
     .select(`
-      id,
-      title,
-      price,
-      country,
-      city,
-      Profiles(
-         profile_id : id,         
-         profile_first_name: first_name,
-         profile_last_name: last_name,
-         profile_email: email,
-         profile_phone: phone,
-         profile_account_type: account_type
-      )
+      *,
+      Profiles(*)
    `)
    // .eq()
    .then((data) => {
       if (data.status == 200){
-         
+         /*
          // Remove nested JSON format
          const rawData = data.data
          const transformedData = rawData.map((item) => {
@@ -113,8 +102,9 @@ exports.getMarketplaceSliderCommodities = async (_, response) => {
                profile_neighbourhood: Profiles?.profile_neighbourhood ?? null
             }
          })
-         response.status(200).send(transformedData)         
-         // response.status(200).send(data.data)
+         response.status(200).send(transformedData)     
+         */    
+         response.status(200).send(data.data)
       }
       else {
          response.status(500).send(data.error)
@@ -128,10 +118,7 @@ exports.getMarketplaceSliderCommodities = async (_, response) => {
 exports.getMarketplaceCommodities = async (_, response) => {
    await supabase
     .from('Products')
-    .select(`
-      *, 
-      Profiles(*)
-   `)
+    .select(`*, Profiles(*)`)
    // .or(`product_name.ilike.%${request.body.name}%, city.ilike.%${request.body.city}`)
    .eq('is_commodity', true)
    .then((data) => {
@@ -174,21 +161,13 @@ exports.getMarketplaceProductsByCategoryOrCity = async (request, response) => {
    await supabase
     .from('Products')
     .select(`
-      *,
-      Profiles(
-         profile_id : id,         
-         profile_first_name: first_name,
-         profile_last_name: last_name,
-         profile_email: email,
-         profile_phone: phone,
-         profile_account_type: account_type
-      )
+      *, Profiles(*)
    `)
    // .or(`category.ilike.${request.body.category}`)
    .or(`category.ilike.%${request.body.category}%, city.ilike.%${request.body.city}`)
    .then((data) => {
       if (data.status == 200){
-         
+         /*
          // Remove nested JSON format
          const rawData = data.data
          const transformedData = rawData.map((item) => {
@@ -210,8 +189,8 @@ exports.getMarketplaceProductsByCategoryOrCity = async (request, response) => {
             }
          })            
          response.status(200).send(transformedData)  
-           
-         // response.status(200).send(data.data)
+           */
+         response.status(200).send(data.data)
       }
       else {
          response.status(500).send(data.error)
@@ -223,6 +202,11 @@ exports.getMarketplaceProductsByCategoryOrCity = async (request, response) => {
 }
 
 exports.getMarketplaceProducts = async (request, response) => {
+   request.headers = {
+      'apikey': process.env.SERVICE_ROLE_KEY,
+      'Authorization': `Bearer ${process.env.SERVICE_ROLE_KEY}`,
+      'Content-Type': 'application/json',
+    }
    await supabase
     .from('Products')
     .select(`
@@ -259,7 +243,7 @@ exports.getMarketplaceProducts = async (request, response) => {
                profile_account_type: Profiles?.profile_account_type ?? null,
                profile_neighbourhood: Profiles?.profile_neighbourhood ?? null
             }
-         })            
+         })       
          response.status(200).send(transformedData)  
            
          // response.status(200).send(data.data)

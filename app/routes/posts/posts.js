@@ -4,6 +4,7 @@ module.exports = (app) => {
 
     router.post('/post/create', controller.createPost)
     router.get('/posts', controller.getPosts)
+    router.get('/posts/type', controller.getPostsByType)
     router.get('/post', controller.getPostsByID)
     router.patch('/post/update', controller.updatePost)
     router.delete('post/delete', controller.deletePost)

@@ -4,6 +4,7 @@ module.exports = (app) => {
 
     router.post('review/create', controller.createReview)
     router.get('/reviews', controller.getReviews)
+    router.get('/reviews/business', controller.getReviewsForBusiness)
     router.get('/review', controller.getReviewsByID)
     router.patch('/review/update', controller.updateReview)
     router.delete('/review/delete', controller.deleteReview)

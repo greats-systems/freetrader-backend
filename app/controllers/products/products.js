@@ -86,20 +86,12 @@ exports.getBusinessProducts = async (request, response) => {
    await supabase
     .from('Products')
     .select(`
-      *,
-      Profiles(
-         profile_id : id,         
-         profile_first_name: first_name,
-         profile_last_name: last_name,
-         profile_email: email,
-         profile_phone: phone,
-         profile_account_type: account_type         
-         ) 
+      *, Profiles(*) 
       `)
-      .eq('businessId', request.body.business_id)
+      .eq('business_id', request.body.business_id)
       .then((data) => {
          if (data.status == 200){
-            
+            /*
             // Remove nested JSON format
             const rawData = data.data
             const transformedData = rawData.map((item) => {
@@ -121,8 +113,8 @@ exports.getBusinessProducts = async (request, response) => {
                }
             })            
             response.status(200).send(transformedData)  
-              
-            // response.status(200).send(data.data)
+              */
+            response.status(200).send(data.data)
          }
          else {
             response.status(500).send(data.error)
