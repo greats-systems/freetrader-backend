@@ -46,7 +46,7 @@ exports.getProfileBusinessList = async (request, response) => {
     await supabase
      .from('Organizations')
      .select()
-     .eq('entrepreneurId', request.body.profile_id)
+     .eq('admin_user_id', request.body.profile_id)
      .then((data) => {
         if (data.status == 200){
            response.status(200).send(data.data)

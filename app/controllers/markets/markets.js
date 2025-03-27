@@ -6,7 +6,9 @@ exports.createMarket = async(request, response) => {
      .insert({
         'description' : request.body.description,
         'name' : request.body.name,
-      //   'admin' : request.body.admin_id,
+      //   'logo' : request.body.logo,
+      //   'banner' : request.body.banner,
+        'admin' : request.body.admin_id,
         'category' : request.body.category,
         'trade_sector' : request.body.trade_sector,
         'neighbourhood' : request.body.neighbourhood,
@@ -17,9 +19,13 @@ exports.createMarket = async(request, response) => {
       //   'banner' : request.body.banner,
       //   'specialization' : request.body.specialization
      })
+     .select()
      .then((data) => {
         if (data.status == 201){
-           response.status(201).send('Market created successfully!')
+           response.status(201).send({
+            'message': 'Market created successfully!',
+            'data': data.data[0]
+           })
         }
         else {
            response.status(500).send(data)
@@ -75,18 +81,12 @@ exports.getMarketplaceSliderCommodities = async (_, response) => {
       country,
       city,
       Profiles(
-         profile_id : id,
-         profile_city : city,
+         profile_id : id,         
+         profile_first_name: first_name,
+         profile_last_name: last_name,
          profile_email: email,
          profile_phone: phone,
-         profile_avatar: avatar,
-         profile_country: country,
-         profile_user_id: user_id,
-         profile_last_name: last_name,
-         profile_created_at: created_at,
-         profile_first_name: first_name,
-         profile_account_type: account_type,
-         profile_neighbourhood: neighbourhood
+         profile_account_type: account_type
       )
    `)
    // .eq()
@@ -130,26 +130,13 @@ exports.getMarketplaceCommodities = async (_, response) => {
     .from('Products')
     .select(`
       *, 
-      Profiles(
-         profile_id : id,
-         profile_city : city,
-         profile_email: email,
-         profile_phone: phone,
-         profile_avatar: avatar,
-         profile_country: country,
-         profile_user_id: user_id,
-         profile_last_name: last_name,
-         profile_created_at: created_at,
-         profile_first_name: first_name,
-         profile_account_type: account_type,
-         profile_neighbourhood: neighbourhood
-      )
+      Profiles(*)
    `)
    // .or(`product_name.ilike.%${request.body.name}%, city.ilike.%${request.body.city}`)
    .eq('is_commodity', true)
    .then((data) => {
       if (data.status == 200){
-         
+         /*
          // Remove nested JSON format
          const rawData = data.data
          const transformedData = rawData.map((item) => {
@@ -171,7 +158,8 @@ exports.getMarketplaceCommodities = async (_, response) => {
             }
          })
          response.status(200).send(transformedData)         
-         // response.status(200).send(data.data)
+         */
+         response.status(200).send(data.data)
       }
       else {
          response.status(500).send(data.error)
@@ -188,18 +176,12 @@ exports.getMarketplaceProductsByCategoryOrCity = async (request, response) => {
     .select(`
       *,
       Profiles(
-         profile_id : id,
-         profile_city : city,
+         profile_id : id,         
+         profile_first_name: first_name,
+         profile_last_name: last_name,
          profile_email: email,
          profile_phone: phone,
-         profile_avatar: avatar,
-         profile_country: country,
-         profile_user_id: user_id,
-         profile_last_name: last_name,
-         profile_created_at: created_at,
-         profile_first_name: first_name,
-         profile_account_type: account_type,
-         profile_neighbourhood: neighbourhood
+         profile_account_type: account_type
       )
    `)
    // .or(`category.ilike.${request.body.category}`)
@@ -246,18 +228,12 @@ exports.getMarketplaceProducts = async (request, response) => {
     .select(`
       *,
       Profiles(
-         profile_id : id,
-         profile_city : city,
+         profile_id : id,         
+         profile_first_name: first_name,
+         profile_last_name: last_name,
          profile_email: email,
          profile_phone: phone,
-         profile_avatar: avatar,
-         profile_country: country,
-         profile_user_id: user_id,
-         profile_last_name: last_name,
-         profile_created_at: created_at,
-         profile_first_name: first_name,
-         profile_account_type: account_type,
-         profile_neighbourhood: neighbourhood
+         profile_account_type: account_type
       )
    `)
    .eq('is_commodity', false)

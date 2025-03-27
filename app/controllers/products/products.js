@@ -4,6 +4,7 @@ exports.createProduct = async (request, response) => {
     await supabase
      .from('Products')
      .insert({
+        'trader': request.body.trader,
         'status' : request.body.status,
         'title' : request.body.title,
         'category' : request.body.category,
@@ -87,21 +88,15 @@ exports.getBusinessProducts = async (request, response) => {
     .select(`
       *,
       Profiles(
-         profile_id : id,
-         profile_city : city,
+         profile_id : id,         
+         profile_first_name: first_name,
+         profile_last_name: last_name,
          profile_email: email,
          profile_phone: phone,
-         profile_avatar: avatar,
-         profile_country: country,
-         profile_user_id: user_id,
-         profile_last_name: last_name,
-         profile_created_at: created_at,
-         profile_first_name: first_name,
-         profile_account_type: account_type,
-         profile_neighbourhood: neighbourhood
+         profile_account_type: account_type         
          ) 
       `)
-      .eq('business_id', request.body.business_id)
+      .eq('businessId', request.body.business_id)
       .then((data) => {
          if (data.status == 200){
             
@@ -144,18 +139,12 @@ exports.getMarketProducts = async (request, response) => {
     .select(`
       *,
       Profiles(
-         profile_id : id,
-         profile_city : city,
+         profile_id : id,         
+         profile_first_name: first_name,
+         profile_last_name: last_name,
          profile_email: email,
          profile_phone: phone,
-         profile_avatar: avatar,
-         profile_country: country,
-         profile_user_id: user_id,
-         profile_last_name: last_name,
-         profile_created_at: created_at,
-         profile_first_name: first_name,
-         profile_account_type: account_type,
-         profile_neighbourhood: neighbourhood
+         profile_account_type: account_type
          ) 
       `)
       .contains('trading_platforms', [request.body.marketId])
