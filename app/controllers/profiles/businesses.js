@@ -5,6 +5,7 @@ exports.createBusiness = async (request, response) => {
     .from('Organizations')
     .insert({
       'entrepreneurId' : request.body.entreprenuerId,
+      'admin_user_id': request.body.admin_user_id,
       'logo' : request.body.logo,
       'logo_id' : request.body.logo_id,
       'banner' : request.body.banner,
