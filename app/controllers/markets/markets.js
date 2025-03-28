@@ -202,28 +202,18 @@ exports.getMarketplaceProductsByCategoryOrCity = async (request, response) => {
 }
 
 exports.getMarketplaceProducts = async (request, response) => {
-   request.headers = {
-      'apikey': process.env.SERVICE_ROLE_KEY,
-      'Authorization': `Bearer ${process.env.SERVICE_ROLE_KEY}`,
-      'Content-Type': 'application/json',
-    }
+   // request.headers = {
+   //    'apikey': process.env.SERVICE_ROLE_KEY,
+   //    'Authorization': `Bearer ${process.env.SERVICE_ROLE_KEY}`,
+   //    'Content-Type': 'application/json',
+   //  }
    await supabase
     .from('Products')
-    .select(`
-      *,
-      Profiles(
-         profile_id : id,         
-         profile_first_name: first_name,
-         profile_last_name: last_name,
-         profile_email: email,
-         profile_phone: phone,
-         profile_account_type: account_type
-      )
-   `)
+    .select(`*, Profiles(*)`)
    .eq('is_commodity', false)
    .then((data) => {
       if (data.status == 200){
-         
+         /*
          // Remove nested JSON format
          const rawData = data.data
          const transformedData = rawData.map((item) => {
@@ -245,8 +235,8 @@ exports.getMarketplaceProducts = async (request, response) => {
             }
          })       
          response.status(200).send(transformedData)  
-           
-         // response.status(200).send(data.data)
+           */
+         response.status(200).send(data.data)
       }
       else {
          response.status(500).send(data.error)

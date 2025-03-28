@@ -14,6 +14,8 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc))
 
 const PORT = process.env.PORT || 5000;
 
+require('./app/routes/buckets/buckets.js')(app)
+
 require('./app/routes/certificate/certificate.js')(app)
 require('./app/routes/certificate/certificateissuer.js')(app)
 

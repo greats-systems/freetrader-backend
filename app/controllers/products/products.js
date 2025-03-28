@@ -6,7 +6,7 @@ exports.createProduct = async (request, response) => {
      .insert({
         'trader': request.body.trader,
         'status' : request.body.status,
-        'title' : request.body.title,
+        'title' : request.body.name,
         'category' : request.body.category,
         'slug' : request.body.slug,
         'description' : request.body.description,
@@ -15,11 +15,12 @@ exports.createProduct = async (request, response) => {
         'current_inventory' : request.body.current_inventory,
         'stocked_inventory' : request.body.stocked_inventory,
         'images' : request.body.images,
+        'image_url' : request.body.image_url,
         'thumbnail' : request.body.thumbnail,
         'location_coordinates' : request.body.location_coordinates,
         'country' : request.body.country,
         'city' : request.body.city,
-        'price' : request.body.price,
+        'price' : request.body.unit_price,
         'variants' : request.body.variants,
         'neighbourhood' : request.body.neighbourhood,
         'business_id' : request.body.business_id,
@@ -37,7 +38,7 @@ exports.createProduct = async (request, response) => {
      })
      .then((data) => {
         if (data.status == 201){
-           response.status(201).send('Market created successfully!')
+           response.status(201).send('Product created successfully!')
         }
         else {
            response.status(500).send(data)
@@ -128,21 +129,11 @@ exports.getBusinessProducts = async (request, response) => {
 exports.getMarketProducts = async (request, response) => {
    await supabase
     .from('Products')
-    .select(`
-      *,
-      Profiles(
-         profile_id : id,         
-         profile_first_name: first_name,
-         profile_last_name: last_name,
-         profile_email: email,
-         profile_phone: phone,
-         profile_account_type: account_type
-         ) 
-      `)
-      .contains('trading_platforms', [request.body.marketId])
-      .then((data) => {
-         if (data.status == 200){
-            
+    .select(` *, Profiles(*)`)
+    .contains('trading_platforms', [request.body.marketId])
+    .then((data) => {
+      if (data.status == 200){
+            /*
             // Remove nested JSON format
             const rawData = data.data
             const transformedData = rawData.map((item) => {
@@ -164,8 +155,8 @@ exports.getMarketProducts = async (request, response) => {
                }
             })            
             response.status(200).send(transformedData)  
-              
-            // response.status(200).send(data.data)
+              */
+            response.status(200).send(data.data)
          }
          else {
             response.status(500).send(data.error)
@@ -304,8 +295,8 @@ exports.updateProduct = async (request, response) => {
       })
       .eq('id', request.body.id)
       .then((data) => {
-        if (data.status == 200){
-           response.status(200).send(data.data)
+        if (data.status == 204){
+           response.status(200).send('Product updated successfully!')
         }
         else {
            response.status(500).send(data)
